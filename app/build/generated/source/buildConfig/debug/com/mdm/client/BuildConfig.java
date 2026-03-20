@@ -10,7 +10,7 @@ public final class BuildConfig {
   public static final int VERSION_CODE = 1;
   public static final String VERSION_NAME = "1.0.0";
   // Field from build type: debug
-  public static final String ADMIN_KEY = "MDM-ADMIN-KEY-CAMBIA-ESTO-EN-PRODUCCION-2024";
+  public static final String ADMIN_KEY = "DEV-ADMIN-KEY-SOLO-PARA-DESARROLLO-NO-USAR-EN-PROD";
   // Field from default config.
   public static final int CONNECT_TIMEOUT_SECONDS = 10;
   // Field from default config.

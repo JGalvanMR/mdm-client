@@ -3,7 +3,7 @@ package com.mdm.client.data.models
 import com.google.gson.annotations.SerializedName
 
 // ════════════════════════════════════════════════════════════════
-// REGISTER
+// REGISTER — data: RegisterDeviceResponse
 // ════════════════════════════════════════════════════════════════
 data class RegisterDeviceRequest(
     @SerializedName("deviceId")       val deviceId:       String,
@@ -14,32 +14,38 @@ data class RegisterDeviceRequest(
     @SerializedName("apiLevel")       val apiLevel:       Int?
 )
 
+// Refleja MDMServer.DTOs.Device.RegisterDeviceResponse
 data class RegisterDeviceResponse(
-    @SerializedName("success")  val success:  Boolean,
-    @SerializedName("deviceId") val deviceId: String,
-    @SerializedName("token")    val token:    String,
-    @SerializedName("message")  val message:  String
+    @SerializedName("deviceId")          val deviceId:          String,
+    @SerializedName("token")             val token:             String,
+    @SerializedName("message")           val message:           String,
+    @SerializedName("isNewRegistration") val isNewRegistration: Boolean
 )
 
 // ════════════════════════════════════════════════════════════════
-// POLL
+// POLL — data: PollResponse
 // ════════════════════════════════════════════════════════════════
 data class PollRequest(
     @SerializedName("batteryLevel")       val batteryLevel:       Int?,
     @SerializedName("storageAvailableMB") val storageAvailableMB: Long?,
-    @SerializedName("ipAddress")          val ipAddress:          String?
+    @SerializedName("ipAddress")          val ipAddress:          String?,
+    @SerializedName("kioskModeEnabled")   val kioskModeEnabled:   Boolean? = null,
+    @SerializedName("cameraDisabled")     val cameraDisabled:     Boolean? = null
 )
 
+// Refleja MDMServer.DTOs.Poll.PollCommandDto
 data class PollCommand(
     @SerializedName("commandId")   val commandId:   Int,
     @SerializedName("commandType") val commandType: String,
-    @SerializedName("parameters")  val parameters:  String?
+    @SerializedName("parameters")  val parameters:  String?,
+    @SerializedName("priority")    val priority:    Int = 5  // ← faltaba
 )
 
+// Refleja MDMServer.DTOs.Poll.PollResponse
 data class PollResponse(
-    @SerializedName("success")    val success:    Boolean,
-    @SerializedName("serverTime") val serverTime: String,
-    @SerializedName("commands")   val commands:   List<PollCommand>
+    @SerializedName("serverTime")  val serverTime:  String,
+    @SerializedName("commands")    val commands:    List<PollCommand>,
+    @SerializedName("pendingAfter") val pendingAfter: Int = 0  // ← faltaba
 )
 
 // ════════════════════════════════════════════════════════════════
@@ -52,11 +58,6 @@ data class CommandResultRequest(
     @SerializedName("errorMessage") val errorMessage: String?
 )
 
-data class CommandResultResponse(
-    @SerializedName("success") val success: Boolean,
-    @SerializedName("message") val message: String
-)
-
 // ════════════════════════════════════════════════════════════════
 // HEARTBEAT
 // ════════════════════════════════════════════════════════════════
@@ -66,11 +67,6 @@ data class HeartbeatRequest(
     @SerializedName("kioskModeEnabled")   val kioskModeEnabled:   Boolean,
     @SerializedName("cameraDisabled")     val cameraDisabled:     Boolean,
     @SerializedName("ipAddress")          val ipAddress:          String?
-)
-
-data class HeartbeatResponse(
-    @SerializedName("success")    val success:    Boolean,
-    @SerializedName("serverTime") val serverTime: String
 )
 
 // ════════════════════════════════════════════════════════════════
@@ -87,12 +83,4 @@ data class DeviceInfoPayload(
     @SerializedName("totalStorageMB")     val totalStorageMB:     Long,
     @SerializedName("kioskModeEnabled")   val kioskModeEnabled:   Boolean,
     @SerializedName("cameraDisabled")     val cameraDisabled:     Boolean
-)
-
-// ════════════════════════════════════════════════════════════════
-// ERROR envelope genérico del servidor
-// ════════════════════════════════════════════════════════════════
-data class ApiError(
-    @SerializedName("error")   val error:   String?,
-    @SerializedName("message") val message: String?
 )

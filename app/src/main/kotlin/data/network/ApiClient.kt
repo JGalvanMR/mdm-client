@@ -3,6 +3,7 @@ package com.mdm.client.data.network
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.mdm.client.BuildConfig
 import com.mdm.client.core.MdmResult
 import com.mdm.client.data.models.*
@@ -18,11 +19,10 @@ import javax.net.ssl.SSLException
 
 class ApiClient {
 
-    private val TAG = "ApiClient"
+    private val TAG  = "ApiClient"
     private val JSON = "application/json; charset=utf-8".toMediaType()
     private val gson: Gson = GsonBuilder().setLenient().create()
 
-    // ── OkHttpClient singleton ────────────────────────────────────────────────
     private val client: OkHttpClient by lazy {
         val logging = HttpLoggingInterceptor { Log.d("MDM_HTTP", it) }.apply {
             level = if (BuildConfig.DEBUG)
@@ -30,7 +30,6 @@ class ApiClient {
             else
                 HttpLoggingInterceptor.Level.NONE
         }
-
         OkHttpClient.Builder()
             .connectTimeout(BuildConfig.CONNECT_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
             .readTimeout(BuildConfig.READ_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
@@ -38,49 +37,47 @@ class ApiClient {
             .callTimeout(30, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .addInterceptor(logging)
-            // Interceptor para loguear errores HTTP de forma limpia
             .addInterceptor { chain ->
-                val request  = chain.request()
-                val response = chain.proceed(request)
-                if (!response.isSuccessful) {
-                    Log.w(TAG, "HTTP ${response.code} en ${request.url.encodedPath}")
-                }
-                response
+                val req  = chain.request()
+                val resp = chain.proceed(req)
+                if (!resp.isSuccessful)
+                    Log.w(TAG, "HTTP ${resp.code} en ${req.url.encodedPath}")
+                resp
             }
             .build()
     }
 
-    // ════════════════════════════════════════════════════════════════════════════
-    // API PÚBLICA
-    // ════════════════════════════════════════════════════════════════════════════
+    // ── API pública ───────────────────────────────────────────────────────────
 
     fun registerDevice(req: RegisterDeviceRequest): MdmResult<RegisterDeviceResponse> =
-        post(ApiEndpoints.REGISTER, req, RegisterDeviceResponse::class.java)
+        postWrapped(ApiEndpoints.REGISTER, req)
 
     fun poll(token: String, req: PollRequest): MdmResult<PollResponse> =
-        postAuth(ApiEndpoints.POLL, token, req, PollResponse::class.java)
+        postWrappedAuth(ApiEndpoints.POLL, token, req)
 
-    fun reportCommandResult(token: String, req: CommandResultRequest): MdmResult<CommandResultResponse> =
-        postAuth(ApiEndpoints.COMMAND_RESULT, token, req, CommandResultResponse::class.java)
+    fun reportCommandResult(token: String, req: CommandResultRequest): MdmResult<Unit> =
+        postWrappedAuth(ApiEndpoints.COMMAND_RESULT, token, req)
 
-    fun heartbeat(token: String, req: HeartbeatRequest): MdmResult<HeartbeatResponse> =
-        postAuth(ApiEndpoints.HEARTBEAT, token, req, HeartbeatResponse::class.java)
+    fun heartbeat(token: String, req: HeartbeatRequest): MdmResult<Unit> =
+        postWrappedAuth(ApiEndpoints.HEARTBEAT, token, req)
 
-    // ════════════════════════════════════════════════════════════════════════════
-    // HELPERS PRIVADOS
-    // ════════════════════════════════════════════════════════════════════════════
+    // ── Helpers: POST con y sin auth, con unwrap automático ───────────────────
 
-    private fun <T> post(url: String, body: Any, cls: Class<T>): MdmResult<T> {
+    private inline fun <reified T> postWrapped(
+        url: String, body: Any
+    ): MdmResult<T> {
         val request = Request.Builder()
             .url(url)
             .post(gson.toJson(body).toRequestBody(JSON))
             .header("Content-Type", "application/json")
             .header("Accept", "application/json")
             .build()
-        return execute(request, cls)
+        return executeAndUnwrap(request)
     }
 
-    private fun <T> postAuth(url: String, token: String, body: Any, cls: Class<T>): MdmResult<T> {
+    private inline fun <reified T> postWrappedAuth(
+        url: String, token: String, body: Any
+    ): MdmResult<T> {
         val request = Request.Builder()
             .url(url)
             .post(gson.toJson(body).toRequestBody(JSON))
@@ -88,54 +85,64 @@ class ApiClient {
             .header("Accept", "application/json")
             .header("Device-Token", token)
             .build()
-        return execute(request, cls)
+        return executeAndUnwrap(request)
     }
 
-    private fun <T> execute(request: Request, cls: Class<T>): MdmResult<T> {
+    /**
+     * Ejecuta la petición HTTP y desenvuelve el ApiResponse<T> del servidor.
+     * Si success=false retorna Failure con el mensaje de error del servidor.
+     * Si T es Unit, solo verifica success sin intentar parsear data.
+     */
+    private inline fun <reified T> executeAndUnwrap(request: Request): MdmResult<T> {
         return try {
             client.newCall(request).execute().use { response ->
                 val bodyStr = response.body?.string()
 
+                // Errores HTTP antes de intentar parsear
+                when (response.code) {
+                    401  -> return MdmResult.Failure("Token inválido (401).", errorCode = 401)
+                    403  -> return MdmResult.Failure("Acceso denegado (403).", errorCode = 403)
+                    404  -> return MdmResult.Failure("Endpoint no encontrado (404).", errorCode = 404)
+                    429  -> return MdmResult.Failure("Rate limit excedido (429).", errorCode = 429)
+                }
+
+                if (bodyStr.isNullOrBlank()) {
+                    return MdmResult.Failure("Respuesta vacía del servidor.")
+                }
+
+                // Para endpoints que retornan solo success/message (Unit)
+                if (T::class == Unit::class) {
+                    val wrapper = gson.fromJson(bodyStr, ApiWrapper::class.java)
+                    return if (wrapper?.success == true)
+                        @Suppress("UNCHECKED_CAST")
+                        MdmResult.Success(Unit as T)
+                    else
+                        MdmResult.Failure(wrapper?.error ?: wrapper?.message ?: "Error del servidor.")
+                }
+
+                // Para endpoints con data tipada
+                val type    = TypeToken.getParameterized(ApiWrapper::class.java, T::class.java).type
+                val wrapper = gson.fromJson<ApiWrapper<T>>(bodyStr, type)
+
                 when {
-                    response.code == 401 ->
-                        MdmResult.Failure("Token inválido o expirado (401)", errorCode = 401)
-
-                    response.code == 403 ->
-                        MdmResult.Failure("Acceso denegado (403)", errorCode = 403)
-
-                    response.code == 404 ->
-                        MdmResult.Failure("Endpoint no encontrado (404)", errorCode = 404)
-
-                    response.code == 429 ->
-                        MdmResult.Failure("Rate limit excedido (429). Reduce el intervalo de polling.", errorCode = 429)
-
-                    response.code >= 500 ->
-                        MdmResult.Failure("Error del servidor ${response.code}: ${bodyStr?.truncateBody()}", errorCode = response.code)
-
-                    !response.isSuccessful ->
-                        MdmResult.Failure("HTTP ${response.code}: ${bodyStr?.truncateBody()}", errorCode = response.code)
-
-                    bodyStr.isNullOrBlank() ->
-                        MdmResult.Failure("Respuesta vacía del servidor")
-
-                    else -> {
-                        val parsed = gson.fromJson(bodyStr, cls)
-                        if (parsed != null) MdmResult.Success(parsed)
-                        else MdmResult.Failure("Error parseando respuesta JSON")
-                    }
+                    wrapper == null ->
+                        MdmResult.Failure("No se pudo parsear la respuesta.")
+                    !wrapper.success ->
+                        MdmResult.Failure(wrapper.error ?: wrapper.message ?: "Error del servidor.")
+                    wrapper.data == null ->
+                        MdmResult.Failure("El servidor retornó success=true pero sin datos.")
+                    else ->
+                        MdmResult.Success(wrapper.data)
                 }
             }
         } catch (e: UnknownHostException) {
-            MdmResult.Failure("No se puede resolver el host. Verifica SERVER_URL y la red.", e)
+            MdmResult.Failure("No se puede resolver el host. Verifica SERVER_URL.", e)
         } catch (e: SocketTimeoutException) {
-            MdmResult.Failure("Timeout de conexión. El servidor no respondió a tiempo.", e)
+            MdmResult.Failure("Timeout. El servidor no respondió a tiempo.", e)
         } catch (e: SSLException) {
-            MdmResult.Failure("Error SSL/TLS: ${e.message}. Verifica el certificado del servidor.", e)
+            MdmResult.Failure("Error SSL/TLS: ${e.message}", e)
         } catch (e: Exception) {
             MdmResult.Failure("Error de red: ${e.message}", e)
         }
     }
-
-    private fun String.truncateBody(max: Int = 200) =
-        if (length > max) take(max) + "…" else this
 }

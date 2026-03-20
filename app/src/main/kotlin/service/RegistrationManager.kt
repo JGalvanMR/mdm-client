@@ -12,17 +12,17 @@ import com.mdm.client.device.DeviceInfoCollector
 import kotlinx.coroutines.delay
 
 class RegistrationManager(
-    private val context: Context,
-    private val apiClient: ApiClient,
-    private val prefs: DevicePrefs
+        private val context: Context,
+        private val apiClient: ApiClient,
+        private val prefs: DevicePrefs
 ) {
-    private val TAG       = "RegistrationManager"
+    private val TAG = "RegistrationManager"
     private val collector = DeviceInfoCollector(context)
 
     /**
-     * Intenta registrar el dispositivo si no está registrado.
-     * Implementa backoff exponencial: 5s → 10s → 20s → 40s → 80s (máx 5 intentos).
-     * Retorna true si al terminar el dispositivo está registrado.
+     * Intenta registrar el dispositivo si no está registrado. Implementa backoff exponencial: 5s →
+     * 10s → 20s → 40s → 80s (máx 5 intentos). Retorna true si al terminar el dispositivo está
+     * registrado.
      */
     suspend fun ensureRegistered(): Boolean {
         if (prefs.isRegistered && !prefs.deviceToken.isNullOrBlank()) {
@@ -30,7 +30,7 @@ class RegistrationManager(
         }
 
         val maxAttempts = BuildConfig.MAX_RETRY_ATTEMPTS
-        var attempt     = 0
+        var attempt = 0
 
         while (attempt < maxAttempts) {
             attempt++
@@ -66,27 +66,32 @@ class RegistrationManager(
     private fun tryRegister(): MdmResult<Unit> {
         val deviceId = prefs.getOrCreateDeviceId(context)
 
-        val request = RegisterDeviceRequest(
-            deviceId       = deviceId,
-            deviceName     = collector.getDeviceName(),
-            model          = Build.MODEL,
-            manufacturer   = Build.MANUFACTURER,
-            androidVersion = Build.VERSION.RELEASE,
-            apiLevel       = Build.VERSION.SDK_INT
-        )
+        val request =
+                RegisterDeviceRequest(
+                        deviceId = deviceId,
+                        deviceName = collector.getDeviceName(),
+                        model = Build.MODEL,
+                        manufacturer = Build.MANUFACTURER,
+                        androidVersion = Build.VERSION.RELEASE,
+                        apiLevel = Build.VERSION.SDK_INT
+                )
 
         return when (val response = apiClient.registerDevice(request)) {
             is MdmResult.Success -> {
                 val data = response.data
-                if (data.success && data.token.length >= 32) {
-                    prefs.deviceToken  = data.token
+                // Ahora data es RegisterDeviceResponse directamente (sin wrapper)
+                if (data.token.length >= 32) {
+                    prefs.deviceToken = data.token
                     prefs.isRegistered = true
+                    MdmLog.i(TAG, "Token recibido: ${data.token.take(8)}****")
                     MdmResult.Success(Unit)
                 } else {
-                    MdmResult.Failure("Respuesta de registro inválida: token vacío o muy corto.")
+                    MdmResult.Failure("Token inválido recibido: longitud ${data.token.length}")
                 }
             }
-            is MdmResult.Failure -> MdmResult.Failure(response.errorMessage, response.cause)
+            is MdmResult.Failure -> {
+                MdmResult.Failure(response.errorMessage, response.cause)
+            }
         }
     }
 }

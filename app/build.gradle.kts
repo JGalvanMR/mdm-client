@@ -34,7 +34,7 @@ android {
         debug {
             isDebuggable = true
             //applicationIdSuffix = ".debug"
-            buildConfigField("String", "ADMIN_KEY", "\"MDM-ADMIN-KEY-CAMBIA-ESTO-EN-PRODUCCION-2024\"")
+            buildConfigField("String", "ADMIN_KEY", "\"DEV-ADMIN-KEY-SOLO-PARA-DESARROLLO-NO-USAR-EN-PROD\"")
         }
         release {
             isMinifyEnabled   = true
