@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent_green">#00D897</color>
+    <color name="accent_red">#FF4757</color>
+    <color name="accent_yellow">#FFD93D</color>
+    <color name="bg_dark">#0F1117</color>
+    <color name="card_bg">#1A1D27</color>
+    <color name="log_bg">#0A0B10</color>
+    <color name="log_text">#4FC97E</color>
+    <color name="status_offline">#FF4757</color>
+    <color name="status_online">#00D897</color>
+    <color name="status_warning">#FFD93D</color>
+    <color name="text_primary">#EAEAEA</color>
+    <color name="text_secondary">#7B7F8E</color>
+    <string name="app_name">MDM Agent</string>
+    <string name="device_admin_description">Permite la administración remota del dispositivo.</string>
+    <string name="device_admin_label">MDM Admin</string>
+    <string name="error_not_device_owner">La app no es Device Owner. Funcionalidad limitada.</string>
+    <string name="notif_channel_desc">Servicio de administración remota activo</string>
+    <string name="notif_channel_name">MDM Service</string>
+    <string name="notif_text_error">Error de conexión. Reintentando...</string>
+    <string name="notif_text_executing">Ejecutando comando remoto...</string>
+    <string name="notif_text_idle">Esperando comandos del servidor...</string>
+    <string name="notif_title">MDM Agent activo</string>
+    <style name="Theme.MdmClient" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/accent_green</item>
+        <item name="colorPrimaryVariant">@color/bg_dark</item>
+        <item name="colorOnPrimary">@color/bg_dark</item>
+        <item name="android:windowBackground">@color/bg_dark</item>
+        <item name="android:statusBarColor">@color/bg_dark</item>
+        <item name="android:navigationBarColor">@color/bg_dark</item>
+    </style>
+</resources>

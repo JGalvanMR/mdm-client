@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MDM Agent</string>
+    <string name="notif_channel_name">MDM Service</string>
+    <string name="notif_channel_desc">Servicio de administración remota activo</string>
+    <string name="notif_title">MDM Agent activo</string>
+    <string name="notif_text_idle">Esperando comandos del servidor...</string>
+    <string name="notif_text_executing">Ejecutando comando remoto...</string>
+    <string name="notif_text_error">Error de conexión. Reintentando...</string>
+    <string name="device_admin_label">MDM Admin</string>
+    <string name="device_admin_description">Permite la administración remota del dispositivo.</string>
+    <string name="error_not_device_owner">La app no es Device Owner. Funcionalidad limitada.</string>
+</resources>

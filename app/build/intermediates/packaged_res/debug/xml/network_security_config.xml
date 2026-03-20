@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--
+        SOLO PARA DESARROLLO.
+        Permite tráfico HTTP (sin TLS) hacia la IP del servidor de desarrollo.
+        En producción eliminar este archivo y usar solo HTTPS.
+    -->
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Reemplaza con la IP real de tu PC -->
+        <domain includeSubdomains="false">192.168.123.155</domain>
+    </domain-config>
+
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

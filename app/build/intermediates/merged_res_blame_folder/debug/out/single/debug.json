@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "com.mdm.client.app-merged_res-4:/xml_network_security_config.xml.flat",
+        "source": "com.mdm.client.app-main-6:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "com.mdm.client.app-merged_res-4:/layout_activity_main.xml.flat",
+        "source": "com.mdm.client.app-main-6:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.mdm.client.app-merged_res-4:/xml_device_admin_policies.xml.flat",
+        "source": "com.mdm.client.app-main-6:/xml/device_admin_policies.xml"
+    },
+    {
+        "merged": "com.mdm.client.app-merged_res-4:/drawable_ic_mdm_status.xml.flat",
+        "source": "com.mdm.client.app-main-6:/drawable/ic_mdm_status.xml"
+    }
+]
