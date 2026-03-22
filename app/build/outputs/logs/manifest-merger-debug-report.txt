@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-89:12
-INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-89:12
-INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-89:12
-INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-89:12
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-90:12
+INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-90:12
+INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-90:12
+INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-90:12
 MERGED from [androidx.databinding:viewbinding:8.2.2] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\eb64b14ef82b607918a84166ad4d000c\transformed\jetified-viewbinding-8.2.2\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\3c6da16fc08c5e7b7caed394bbbfefaa\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\488aad099d5ebc6b5042a6b3b7d174ef\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
@@ -71,93 +71,93 @@ uses-permission#android.permission.INTERNET
 ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:5:5-67
 	android:name
 		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:5:22-64
-uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:6:5-79
-MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:24:5-79
-MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:24:5-79
-	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:6:22-76
-uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:7:5-77
-MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:26:5-77
-MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:26:5-77
-	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:7:22-74
-uses-permission#android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:8:5-94
-	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:8:22-91
-uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:9:5-81
-MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:25:5-81
-MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:25:5-81
-	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:9:22-78
 uses-permission#android.permission.WAKE_LOCK
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:10:5-68
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:6:5-68
 MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:23:5-68
 MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:23:5-68
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:10:22-65
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:6:22-65
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:7:5-79
+MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:24:5-79
+MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:24:5-79
+	android:name
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:7:22-76
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:8:5-77
+MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:26:5-77
+MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:26:5-77
+	android:name
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:8:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:9:5-94
+	android:name
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:9:22-91
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:10:5-81
+MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:25:5-81
+MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:25:5-81
+	android:name
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:10:22-78
 uses-permission#android.permission.POST_NOTIFICATIONS
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:11:5-77
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:12:5-77
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:11:22-74
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:12:22-74
 uses-permission#android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:12:5-95
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:13:5-95
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:12:22-92
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:13:22-92
 uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:13:5-76
-	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:13:22-73
-uses-permission#android.permission.CHANGE_WIFI_STATE
 ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:14:5-76
 	android:name
 		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:14:22-73
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:15:5-76
+	android:name
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:15:22-73
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:15:5-79
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:5-79
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:15:22-76
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:22-76
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:5-81
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:17:5-81
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:22-78
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:17:22-78
 uses-permission#android.permission.BLUETOOTH
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:17:5-18:38
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:18:5-19:38
 	android:maxSdkVersion
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:18:9-35
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:19:9-35
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:17:22-65
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:18:22-65
 uses-permission#android.permission.BLUETOOTH_ADMIN
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:19:5-20:38
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:20:5-21:38
 	android:maxSdkVersion
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:20:9-35
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:21:9-35
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:19:22-71
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:20:22-71
 uses-permission#android.permission.BLUETOOTH_CONNECT
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:21:5-22:32
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:22:5-23:32
 	tools:targetApi
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:22:9-29
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:23:9-29
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:21:22-73
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:22:22-73
 uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:23:5-83
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:24:5-83
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:23:22-80
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:24:22-80
 uses-permission#android.permission.REQUEST_DELETE_PACKAGES
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:24:5-82
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:25:5-82
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:24:22-79
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:25:22-79
 uses-permission#android.permission.WRITE_SETTINGS
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:26:5-27:47
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:27:5-28:47
 	tools:ignore
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:27:9-44
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:28:9-44
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:26:22-70
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:27:22-70
 application
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:29:5-88:19
-INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:29:5-88:19
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:30:5-89:19
+INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:30:5-89:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\3c6da16fc08c5e7b7caed394bbbfefaa\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\3c6da16fc08c5e7b7caed394bbbfefaa\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\488aad099d5ebc6b5042a6b3b7d174ef\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -183,85 +183,85 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\jesus.DESKTOP-RGDD
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.12.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\440a64c1659b3784956be1ef27019da1\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
 	android:label
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:32:9-34
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:33:9-34
 	android:testOnly
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:34:9-32
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:35:9-32
 	android:allowBackup
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:31:9-36
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:32:9-36
 	android:theme
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:33:9-47
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:34:9-47
 	android:networkSecurityConfig
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:35:9-69
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:36:9-69
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:30:9-28
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:31:9-28
 activity#com.mdm.client.MainActivity
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:37:9-45:20
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:38:9-46:20
 	android:launchMode
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:40:13-43
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:41:13-43
 	android:exported
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:39:13-36
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:40:13-36
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:38:13-41
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:39:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:41:13-44:29
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:42:13-45:29
 action#android.intent.action.MAIN
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:42:17-69
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:43:17-69
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:42:25-66
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:43:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:43:17-77
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:44:17-77
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:43:27-74
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:44:27-74
 receiver#com.mdm.client.receiver.DeviceOwnerReceiver
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:52:9-71:20
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:53:9-72:20
 	android:label
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:55:13-38
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:56:13-38
 	android:exported
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:54:13-36
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:55:13-36
 	android:permission
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:57:13-70
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:58:13-70
 	android:description
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:56:13-67
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:57:13-67
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:53:13-57
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:54:13-57
 meta-data#android.app.device_admin
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:64:13-66:65
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:65:13-67:65
 	android:resource
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:66:17-62
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:67:17-62
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:65:17-56
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:66:17-56
 intent-filter#action:name:android.app.action.DEVICE_ADMIN_ENABLED
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:68:13-70:29
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:69:13-71:29
 action#android.app.action.DEVICE_ADMIN_ENABLED
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:69:17-82
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:70:17-82
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:69:25-79
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:70:25-79
 receiver#com.mdm.client.receiver.BootReceiver
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:73:9-80:20
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:74:9-81:20
 	android:exported
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:75:13-36
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:76:13-36
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:74:13-50
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:75:13-50
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.MY_PACKAGE_REPLACED
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:76:13-79:29
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:77:13-80:29
 action#android.intent.action.BOOT_COMPLETED
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:77:17-79
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:78:17-79
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:77:25-76
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:78:25-76
 action#android.intent.action.MY_PACKAGE_REPLACED
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:78:17-84
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:79:17-84
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:78:25-81
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:79:25-81
 service#com.mdm.client.service.MdmPollingService
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:82:9-86:63
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:83:9-87:63
 	android:exported
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:84:13-37
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:85:13-37
 	android:stopWithTask
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:85:13-41
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:86:13-41
 	android:foregroundServiceType
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:86:13-60
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:87:13-60
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:83:13-54
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:84:13-54
 uses-sdk
 INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml

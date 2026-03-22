@@ -1,3 +1,4 @@
+// app/src/main/kotlin/com/mdm/client/data/queue/CommandResultQueue.kt
 package com.mdm.client.data.queue
 
 import android.content.Context
@@ -7,50 +8,60 @@ import com.google.gson.reflect.TypeToken
 import com.mdm.client.core.MdmLog
 import com.mdm.client.data.models.CommandResultRequest
 
-/**
- * Cola persistente de resultados de comandos para enviar cuando haya red.
- * Almacena los resultados pendientes en SharedPreferences como JSON array.
- * Si el dispositivo pierde red justo al reportar un resultado, no se pierde.
- */
+data class QueuedResult(
+    val request:    CommandResultRequest,
+    val retryCount: Int  = 0,
+    val enqueuedAt: Long = System.currentTimeMillis()
+)
+
 class CommandResultQueue(context: Context) {
 
-    private val TAG   = "CommandResultQueue"
-    private val KEY   = "pending_results"
-    private val gson  = Gson()
+    private val TAG       = "CommandResultQueue"
+    private val KEY       = "pending_results"
+    private val MAX_RETRY = 5
+    private val MAX_AGE_MS = 24L * 60 * 60 * 1000   // 24 horas
+    private val gson      = Gson()
     private val prefs: SharedPreferences =
         context.getSharedPreferences("mdm_result_queue", Context.MODE_PRIVATE)
+    private val listType = object : TypeToken<MutableList<QueuedResult>>() {}.type
 
-    private val listType = object : TypeToken<MutableList<CommandResultRequest>>() {}.type
-
-    fun enqueue(result: CommandResultRequest) {
+    fun enqueue(result: CommandResultRequest, currentRetry: Int = 0) {
+        if (currentRetry >= MAX_RETRY) {
+            MdmLog.w(TAG, "commandId=${result.commandId} descartado tras $MAX_RETRY reintentos.")
+            return
+        }
         val list = getAll().toMutableList()
-        // Evitar duplicados por commandId
-        list.removeAll { it.commandId == result.commandId }
-        list.add(result)
+        list.removeAll { it.request.commandId == result.commandId }
+        list.add(QueuedResult(request = result, retryCount = currentRetry))
         save(list)
-        MdmLog.i(TAG, "Encolado resultado para commandId=${result.commandId}. Total en cola: ${list.size}")
+        MdmLog.i(TAG, "Encolado commandId=${result.commandId} retry=$currentRetry. Cola: ${list.size}")
     }
 
-    fun dequeueAll(): List<CommandResultRequest> {
-        val items = getAll()
-        if (items.isNotEmpty()) {
-            save(emptyList())
-            MdmLog.i(TAG, "Desencolados ${items.size} resultados.")
+    fun dequeueAll(): List<QueuedResult> {
+        val now   = System.currentTimeMillis()
+        val all   = getAll()
+        val valid = all.filter { it.retryCount < MAX_RETRY && (now - it.enqueuedAt) < MAX_AGE_MS }
+        val dropped = all.size - valid.size
+        if (dropped > 0) {
+            MdmLog.w(TAG, "Descartados $dropped resultados expirados/agotados.")
+            save(valid)
         }
-        return items
+        return valid
+    }
+
+    fun markSuccess(commandId: Int) {
+        val list = getAll().toMutableList()
+        list.removeAll { it.request.commandId == commandId }
+        save(list)
+        MdmLog.d(TAG, "Removido commandId=$commandId de la cola.")
     }
 
     fun size(): Int = getAll().size
 
-    fun remove(commandId: Int) {
-        val list = getAll().toMutableList()
-        list.removeAll { it.commandId == commandId }
-        save(list)
-    }
-
-    private fun getAll(): List<CommandResultRequest> {
+    // Block body: permite usar 'return' dentro del try
+    private fun getAll(): List<QueuedResult> {
+        val json = prefs.getString(KEY, null) ?: return emptyList()
         return try {
-            val json = prefs.getString(KEY, null) ?: return emptyList()
             gson.fromJson(json, listType) ?: emptyList()
         } catch (e: Exception) {
             MdmLog.e(TAG, "Error leyendo cola: ${e.message}")
@@ -58,7 +69,7 @@ class CommandResultQueue(context: Context) {
         }
     }
 
-    private fun save(list: List<CommandResultRequest>) {
+    private fun save(list: List<QueuedResult>) {
         prefs.edit().putString(KEY, gson.toJson(list)).apply()
     }
 }
