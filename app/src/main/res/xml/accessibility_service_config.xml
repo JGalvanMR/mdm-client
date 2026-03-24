@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
     android:description="@string/accessibility_service_description"
-    android:packageNames="com.tuempresa.mdm"
+    android:packageNames="com.mdm.client"
     android:accessibilityEventTypes="typeAllMask"
     android:accessibilityFlags="flagDefault|flagIncludeNotImportantViews|flagReportViewIds"
     android:canRetrieveWindowContent="true"
     android:canTakeScreenshot="true"
     android:notificationTimeout="100"
-    android:settingsActivity="com.tuempresa.mdm.SettingsActivity" />
+    android:settingsActivity="com.mdm.client.SettingsActivity" />
