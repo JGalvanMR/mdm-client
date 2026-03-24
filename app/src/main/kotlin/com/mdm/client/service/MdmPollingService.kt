@@ -25,6 +25,7 @@ import com.mdm.client.data.network.WsEventListener
 import com.mdm.client.data.prefs.DevicePrefs
 import com.mdm.client.data.queue.CommandResultQueue
 import com.mdm.client.device.DeviceInfoCollector
+import com.mdm.client.service.TelemetryCollector
 import kotlinx.coroutines.*
 
 class MdmPollingService : Service() {
@@ -38,6 +39,10 @@ class MdmPollingService : Service() {
     private lateinit var networkMonitor: NetworkMonitor
     private lateinit var infoCollector: DeviceInfoCollector
     private lateinit var resultQueue: CommandResultQueue
+
+    private lateinit var telemetryCollector: TelemetryCollector
+    private var telemetryCycleCount = 0
+    private val TELEMETRY_EVERY_N_POLLS = 5 // cada 5 ciclos = cada ~2.5min (WS) o 2.5min (poll)
 
     private var wsClient: MdmWebSocketClient? = null
 
@@ -59,6 +64,7 @@ class MdmPollingService : Service() {
         initDependencies()
         createNotificationChannels()
         acquireWakeLock()
+        telemetryCollector = TelemetryCollector(this)
         startForeground(Constants.NOTIF_ID_SERVICE, buildNotification("Iniciando MDM Agent..."))
         MdmLog.i(TAG, "Servicio MDM creado.")
     }
@@ -237,10 +243,18 @@ class MdmPollingService : Service() {
     // ── Poll de respaldo ──────────────────────────────────────────────────────
     private suspend fun executePollCycle() {
         pollCycleCount++
+        telemetryCycleCount++
 
         if (!networkMonitor.isConnected) {
             updateNotification("Sin red. Esperando...", isError = true)
             return
+        }
+
+        // ── NUEVO: enviar telemetría completa cada N ciclos ─────────────────
+        if (telemetryCycleCount >= TELEMETRY_EVERY_N_POLLS) {
+            telemetryCycleCount = 0
+            val token = prefs.deviceToken ?: return
+            sendTelemetry(token)
         }
 
         val token =
@@ -265,6 +279,20 @@ class MdmPollingService : Service() {
         // WS inactivo: poll completo
         doPoll(token)
     }
+
+    private suspend fun sendTelemetry(token: String) =
+            withContext(Dispatchers.IO) {
+                try {
+                    val report = telemetryCollector.collect()
+                    when (val result = apiClient.reportTelemetry(token, report)) {
+                        is MdmResult.Success -> MdmLog.d(TAG, "Telemetría enviada OK")
+                        is MdmResult.Failure ->
+                                MdmLog.w(TAG, "Telemetría fallida: ${result.errorMessage}")
+                    }
+                } catch (e: Exception) {
+                    MdmLog.e(TAG, "Error enviando telemetría: ${e.message}")
+                }
+            }
 
     private suspend fun doPoll(token: String) =
             withContext(Dispatchers.IO) {
@@ -331,25 +359,27 @@ class MdmPollingService : Service() {
             }
 
     // service/MdmPollingService.kt — reemplazar solo drainResultQueue
-private suspend fun drainResultQueue(token: String) = withContext(Dispatchers.IO) {
-    val pending = resultQueue.dequeueAll()
-    if (pending.isEmpty()) return@withContext
+    private suspend fun drainResultQueue(token: String) =
+            withContext(Dispatchers.IO) {
+                val pending = resultQueue.dequeueAll()
+                if (pending.isEmpty()) return@withContext
 
-    MdmLog.i(TAG, "Drenando ${pending.size} resultado(s) pendiente(s)...")
+                MdmLog.i(TAG, "Drenando ${pending.size} resultado(s) pendiente(s)...")
 
-    for (item in pending) {
-        when (apiClient.reportCommandResult(token, item.request)) {
-            is MdmResult.Success -> {
-                resultQueue.markSuccess(item.request.commandId)
-                MdmLog.i(TAG, "OK drenado commandId=${item.request.commandId}")
+                for (item in pending) {
+                    when (apiClient.reportCommandResult(token, item.request)) {
+                        is MdmResult.Success -> {
+                            resultQueue.markSuccess(item.request.commandId)
+                            MdmLog.i(TAG, "OK drenado commandId=${item.request.commandId}")
+                        }
+                        is MdmResult.Failure -> {
+                            // Re-encolar con retry incremental; el metodo descarta si supera
+                            // MAX_RETRY
+                            resultQueue.enqueue(item.request, item.retryCount + 1)
+                        }
+                    }
+                }
             }
-            is MdmResult.Failure -> {
-                // Re-encolar con retry incremental; el metodo descarta si supera MAX_RETRY
-                resultQueue.enqueue(item.request, item.retryCount + 1)
-            }
-        }
-    }
-}
 
     private suspend fun sendHeartbeatHttp(token: String) =
             withContext(Dispatchers.IO) {

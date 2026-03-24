@@ -31,6 +31,7 @@ id tvTitle
 id tvVersion
 id viewStatusDot
 layout activity_main
+string accessibility_service_description
 string app_name
 string device_admin_description
 string device_admin_label
@@ -42,5 +43,6 @@ string notif_text_executing
 string notif_text_idle
 string notif_title
 style Theme.MdmClient
+xml accessibility_service_config
 xml device_admin_policies
 xml network_security_config

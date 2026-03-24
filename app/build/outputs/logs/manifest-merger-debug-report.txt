@@ -1,15 +1,19 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-90:12
-INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-90:12
-INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-90:12
-INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-90:12
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-108:12
+INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-108:12
+INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-108:12
+INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:2:1-108:12
 MERGED from [androidx.databinding:viewbinding:8.2.2] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\eb64b14ef82b607918a84166ad4d000c\transformed\jetified-viewbinding-8.2.2\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\3c6da16fc08c5e7b7caed394bbbfefaa\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\488aad099d5ebc6b5042a6b3b7d174ef\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\4a1fd2fbef20642ba8832362b45cdf3c\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\9756fab58daf3b55028a539310104216\transformed\appcompat-1.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\0346c80c0f9b8f22bf589cdbabf5b9e9\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-location:21.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\06f33c6252635843dcb5a7ed9ba48bd4\transformed\jetified-play-services-location-21.1.0\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\a5f849c76729e63792fd58ac47898bf2\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\696eecfd7102b226ae15d57b2924e9c0\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\18718be8b4c15b2152816ec82e004ad3\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:16:1-26:12
 MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\392158aea97ce76aae70fa4b7c774883\transformed\fragment-1.3.6\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.8.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\b6b7211c3ba8c1ba850bd68f1dc424ff\transformed\jetified-activity-1.8.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\7d208ffbea9e74bcbba0e2651b2450bc\transformed\jetified-emoji2-views-helper-1.2.0\AndroidManifest.xml:2:1-7:12
@@ -99,69 +103,85 @@ MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.g
 MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:25:5-81
 	android:name
 		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:10:22-78
-uses-permission#android.permission.POST_NOTIFICATIONS
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:12:5-77
-	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:12:22-74
 uses-permission#android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:13:5-95
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:11:5-95
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:13:22-92
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:11:22-92
 uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:14:5-76
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:12:5-76
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:14:22-73
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:12:22-73
 uses-permission#android.permission.CHANGE_WIFI_STATE
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:15:5-76
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:13:5-76
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:15:22-73
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:13:22-73
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:5-79
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:14:5-79
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:22-76
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:14:22-76
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:17:5-81
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:15:5-81
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:17:22-78
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:15:22-78
+uses-permission#android.permission.ACCESS_BACKGROUND_LOCATION
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:2-82
+	android:name
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:19-79
 uses-permission#android.permission.BLUETOOTH
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:18:5-19:38
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:17:5-18:38
 	android:maxSdkVersion
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:19:9-35
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:18:9-35
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:18:22-65
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:17:22-65
 uses-permission#android.permission.BLUETOOTH_ADMIN
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:20:5-21:38
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:19:5-20:38
 	android:maxSdkVersion
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:21:9-35
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:20:9-35
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:20:22-71
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:19:22-71
 uses-permission#android.permission.BLUETOOTH_CONNECT
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:22:5-23:32
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:21:5-22:32
 	tools:targetApi
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:23:9-29
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:22:9-29
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:22:22-73
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:21:22-73
 uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:24:5-83
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:23:5-83
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:24:22-80
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:23:22-80
 uses-permission#android.permission.REQUEST_DELETE_PACKAGES
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:25:5-82
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:24:5-82
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:25:22-79
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:24:22-79
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:25:5-77
+	android:name
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:25:22-74
 uses-permission#android.permission.WRITE_SETTINGS
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:27:5-28:47
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:26:5-27:47
 	tools:ignore
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:28:9-44
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:27:9-44
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:27:22-70
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:26:22-70
+uses-permission#android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:28:2-91
+	android:name
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:28:19-88
 application
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:30:5-89:19
-INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:30:5-89:19
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:30:5-107:19
+INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:30:5-107:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\3c6da16fc08c5e7b7caed394bbbfefaa\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\3c6da16fc08c5e7b7caed394bbbfefaa\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\488aad099d5ebc6b5042a6b3b7d174ef\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\488aad099d5ebc6b5042a6b3b7d174ef\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
+MERGED from [com.google.android.gms:play-services-location:21.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\06f33c6252635843dcb5a7ed9ba48bd4\transformed\jetified-play-services-location-21.1.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-location:21.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\06f33c6252635843dcb5a7ed9ba48bd4\transformed\jetified-play-services-location-21.1.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\a5f849c76729e63792fd58ac47898bf2\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\a5f849c76729e63792fd58ac47898bf2\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\696eecfd7102b226ae15d57b2924e9c0\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\696eecfd7102b226ae15d57b2924e9c0\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\18718be8b4c15b2152816ec82e004ad3\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\18718be8b4c15b2152816ec82e004ad3\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\76365207ca565fc3f062c81ff912fbf0\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\76365207ca565fc3f062c81ff912fbf0\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:28:5-143:19
@@ -212,56 +232,86 @@ category#android.intent.category.LAUNCHER
 ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:44:17-77
 	android:name
 		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:44:27-74
+activity#com.mdm.client.ui.ScreenCapturePermissionActivity
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:48:3-51:67
+	android:exported
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:50:5-28
+	android:theme
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:51:5-64
+	android:name
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:49:5-55
 receiver#com.mdm.client.receiver.DeviceOwnerReceiver
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:53:9-72:20
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:58:9-77:20
 	android:label
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:56:13-38
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:61:13-38
 	android:exported
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:55:13-36
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:60:13-36
 	android:permission
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:58:13-70
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:63:13-70
 	android:description
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:57:13-67
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:62:13-67
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:54:13-57
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:59:13-57
 meta-data#android.app.device_admin
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:65:13-67:65
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:70:13-72:65
 	android:resource
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:67:17-62
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:72:17-62
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:66:17-56
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:71:17-56
 intent-filter#action:name:android.app.action.DEVICE_ADMIN_ENABLED
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:69:13-71:29
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:74:13-76:29
 action#android.app.action.DEVICE_ADMIN_ENABLED
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:70:17-82
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:75:17-82
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:70:25-79
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:75:25-79
 receiver#com.mdm.client.receiver.BootReceiver
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:74:9-81:20
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:79:9-86:20
 	android:exported
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:76:13-36
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:81:13-36
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:75:13-50
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:80:13-50
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.MY_PACKAGE_REPLACED
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:77:13-80:29
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:82:13-85:29
 action#android.intent.action.BOOT_COMPLETED
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:78:17-79
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:83:17-79
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:78:25-76
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:83:25-76
 action#android.intent.action.MY_PACKAGE_REPLACED
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:79:17-84
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:84:17-84
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:79:25-81
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:84:25-81
 service#com.mdm.client.service.MdmPollingService
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:83:9-87:63
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:88:9-92:63
 	android:exported
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:85:13-37
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:90:13-37
 	android:stopWithTask
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:86:13-41
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:91:13-41
 	android:foregroundServiceType
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:87:13-60
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:92:13-60
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:84:13-54
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:89:13-54
+service#com.mdm.client.service.MdmAccessibilityService
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:94:3-105:11
+	android:label
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:98:5-35
+	android:exported
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:97:5-28
+	android:permission
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:96:5-71
+	android:name
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:95:5-52
+intent-filter#action:name:android.accessibilityservice.AccessibilityService
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:99:5-101:21
+action#android.accessibilityservice.AccessibilityService
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:100:9-84
+	android:name
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:100:17-81
+meta-data#android.accessibilityservice
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:102:5-104:64
+	android:resource
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:104:9-61
+	android:name
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:103:9-52
 uses-sdk
 INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml
@@ -278,6 +328,14 @@ MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\jesus.DESKTOP-RGDD49H\
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\9756fab58daf3b55028a539310104216\transformed\appcompat-1.6.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\0346c80c0f9b8f22bf589cdbabf5b9e9\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\0346c80c0f9b8f22bf589cdbabf5b9e9\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-location:21.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\06f33c6252635843dcb5a7ed9ba48bd4\transformed\jetified-play-services-location-21.1.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-location:21.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\06f33c6252635843dcb5a7ed9ba48bd4\transformed\jetified-play-services-location-21.1.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\a5f849c76729e63792fd58ac47898bf2\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\a5f849c76729e63792fd58ac47898bf2\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\696eecfd7102b226ae15d57b2924e9c0\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\696eecfd7102b226ae15d57b2924e9c0\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\18718be8b4c15b2152816ec82e004ad3\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\18718be8b4c15b2152816ec82e004ad3\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:18:5-43
 MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\392158aea97ce76aae70fa4b7c774883\transformed\fragment-1.3.6\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\392158aea97ce76aae70fa4b7c774883\transformed\fragment-1.3.6\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity:1.8.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\b6b7211c3ba8c1ba850bd68f1dc424ff\transformed\jetified-activity-1.8.0\AndroidManifest.xml:20:5-44
@@ -376,6 +434,20 @@ MERGED from [androidx.sqlite:sqlite:2.3.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradl
 		INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
 		INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\a5f849c76729e63792fd58ac47898bf2\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\a5f849c76729e63792fd58ac47898bf2\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\a5f849c76729e63792fd58ac47898bf2\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\a5f849c76729e63792fd58ac47898bf2\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\18718be8b4c15b2152816ec82e004ad3\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\18718be8b4c15b2152816ec82e004ad3\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\18718be8b4c15b2152816ec82e004ad3\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
 provider#androidx.startup.InitializationProvider
 ADDED from [androidx.emoji2:emoji2:1.2.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\76365207ca565fc3f062c81ff912fbf0\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
 MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\e5a20f1fc905537ac2a8b3c08e5cd9c7\transformed\work-runtime-2.9.0\AndroidManifest.xml:29:9-37:20

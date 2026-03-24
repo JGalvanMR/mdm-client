@@ -14,5 +14,9 @@
     {
         "merged": "com.mdm.client.app-merged_res-4:/drawable_ic_mdm_status.xml.flat",
         "source": "com.mdm.client.app-main-6:/drawable/ic_mdm_status.xml"
+    },
+    {
+        "merged": "com.mdm.client.app-merged_res-4:/xml_accessibility_service_config.xml.flat",
+        "source": "com.mdm.client.app-main-6:/xml/accessibility_service_config.xml"
     }
 ]
