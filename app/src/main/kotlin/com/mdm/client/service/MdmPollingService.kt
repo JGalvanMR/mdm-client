@@ -12,6 +12,7 @@ import androidx.core.app.NotificationCompat
 import com.mdm.client.BuildConfig
 import com.mdm.client.MainActivity
 import com.mdm.client.commands.CommandExecutor
+import com.mdm.client.commands.handlers.ScreenStreamHandler
 import com.mdm.client.core.Constants
 import com.mdm.client.core.MdmLog
 import com.mdm.client.core.MdmResult
@@ -25,7 +26,6 @@ import com.mdm.client.data.network.WsEventListener
 import com.mdm.client.data.prefs.DevicePrefs
 import com.mdm.client.data.queue.CommandResultQueue
 import com.mdm.client.device.DeviceInfoCollector
-import com.mdm.client.service.TelemetryCollector
 import kotlinx.coroutines.*
 
 class MdmPollingService : Service() {
@@ -70,15 +70,29 @@ class MdmPollingService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (!isRunning) {
-            isRunning = true
-            scope.launch { mainLoop() }
-        }
-        return START_STICKY
+    if (intent?.action == "ACTION_GRANT_SCREEN_CAPTURE") {
+        requestScreenCapturePermission()
+    } else if (!isRunning) {
+        isRunning = true
+        scope.launch { mainLoop() }
     }
+    return START_STICKY
+}
+
+private fun requestScreenCapturePermission() {
+    try {
+        val intent = Intent(this, ScreenCapturePermissionActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        MdmLog.i(TAG, "Lanzada actividad de solicitud de permiso de captura.")
+    } catch (e: Exception) {
+        MdmLog.e(TAG, "Error lanzando actividad de permiso: ${e.message}")
+    }
+}
 
     override fun onDestroy() {
         isRunning = false
+        executor.execute(CommandType.STOP_SCREEN_STREAM, null)
         serviceJob.cancel()
         wsClient?.disconnect()
         releaseWakeLock()
@@ -141,6 +155,7 @@ class MdmPollingService : Service() {
                                 override fun onConnected() {
                                     MdmLog.i(TAG, "✓ WebSocket conectado. Push activo.")
                                     updateNotification("Conectado (push activo)")
+                                    ScreenStreamHandler.WebSocketHolder.instance = this@apply
                                     // Enviar status inmediatamente al conectar
                                     sendCurrentStatus()
                                 }
@@ -151,6 +166,7 @@ class MdmPollingService : Service() {
                                             "WS desconectado: $reason. Reconectando en 10s..."
                                     )
                                     updateNotification("Reconectando...", isError = true)
+                                    ScreenStreamHandler.WebSocketHolder.instance = null
                                     scope.launch {
                                         delay(10_000)
                                         if (isRunning) connectWebSocket()

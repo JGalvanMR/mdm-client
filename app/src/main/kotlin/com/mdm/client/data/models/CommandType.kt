@@ -41,6 +41,7 @@ object CommandType {
 		
 		const val START_SCREEN_STREAM = "START_SCREEN_STREAM"
 		const val STOP_SCREEN_STREAM  = "STOP_SCREEN_STREAM"
+		const val GRANT_SCREEN_CAPTURE = "GRANT_SCREEN_CAPTURE"
 
         val ALL =
                 setOf(
@@ -76,7 +77,10 @@ object CommandType {
                         STOP_LOCATION_TRACK,
                         RING_DEVICE,
                         SET_PASSWORD_POLICY,
-                        GET_BATTERY_DETAIL
+                        GET_BATTERY_DETAIL,
+						START_SCREEN_STREAM,
+						STOP_SCREEN_STREAM,
+						GRANT_SCREEN_CAPTURE
                 )
 
         val REQUIRES_MAIN_THREAD = setOf(ENABLE_KIOSK_MODE, DISABLE_KIOSK_MODE)

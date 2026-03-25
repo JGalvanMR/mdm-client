@@ -39,4 +39,5 @@ object Constants {
     const val KEY_LAST_POLL_TS        = "last_poll_timestamp"
     const val KEY_LAST_SYNC_TS        = "last_sync_timestamp"
     const val KEY_REGISTRATION_RETRY  = "registration_retry_count"
+	const val GRANT_SCREEN_CAPTURE = "GRANT_SCREEN_CAPTURE"
 }

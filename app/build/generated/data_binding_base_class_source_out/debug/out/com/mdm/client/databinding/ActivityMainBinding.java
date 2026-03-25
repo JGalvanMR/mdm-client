@@ -4,6 +4,7 @@ package com.mdm.client.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,9 @@ import java.lang.String;
 public final class ActivityMainBinding implements ViewBinding {
   @NonNull
   private final ConstraintLayout rootView;
+
+  @NonNull
+  public final Button btnGrantPermission;
 
   @NonNull
   public final CardView cardDeviceInfo;
@@ -71,7 +75,8 @@ public final class ActivityMainBinding implements ViewBinding {
   @NonNull
   public final View viewStatusDot;
 
-  private ActivityMainBinding(@NonNull ConstraintLayout rootView, @NonNull CardView cardDeviceInfo,
+  private ActivityMainBinding(@NonNull ConstraintLayout rootView,
+      @NonNull Button btnGrantPermission, @NonNull CardView cardDeviceInfo,
       @NonNull CardView cardMdmStatus, @NonNull CardView cardServiceStatus,
       @NonNull TextView tvAndroidVersion, @NonNull TextView tvCameraStatus,
       @NonNull TextView tvCommandsExecuted, @NonNull TextView tvDeviceId,
@@ -80,6 +85,7 @@ public final class ActivityMainBinding implements ViewBinding {
       @NonNull TextView tvRegistered, @NonNull TextView tvServiceStatus, @NonNull TextView tvTitle,
       @NonNull TextView tvVersion, @NonNull View viewStatusDot) {
     this.rootView = rootView;
+    this.btnGrantPermission = btnGrantPermission;
     this.cardDeviceInfo = cardDeviceInfo;
     this.cardMdmStatus = cardMdmStatus;
     this.cardServiceStatus = cardServiceStatus;
@@ -126,6 +132,12 @@ public final class ActivityMainBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btnGrantPermission;
+      Button btnGrantPermission = ViewBindings.findChildViewById(rootView, id);
+      if (btnGrantPermission == null) {
+        break missingId;
+      }
+
       id = R.id.cardDeviceInfo;
       CardView cardDeviceInfo = ViewBindings.findChildViewById(rootView, id);
       if (cardDeviceInfo == null) {
@@ -228,10 +240,10 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityMainBinding((ConstraintLayout) rootView, cardDeviceInfo, cardMdmStatus,
-          cardServiceStatus, tvAndroidVersion, tvCameraStatus, tvCommandsExecuted, tvDeviceId,
-          tvDeviceModel, tvDeviceOwnerStatus, tvKioskStatus, tvLastPoll, tvLog, tvRegistered,
-          tvServiceStatus, tvTitle, tvVersion, viewStatusDot);
+      return new ActivityMainBinding((ConstraintLayout) rootView, btnGrantPermission,
+          cardDeviceInfo, cardMdmStatus, cardServiceStatus, tvAndroidVersion, tvCameraStatus,
+          tvCommandsExecuted, tvDeviceId, tvDeviceModel, tvDeviceOwnerStatus, tvKioskStatus,
+          tvLastPoll, tvLog, tvRegistered, tvServiceStatus, tvTitle, tvVersion, viewStatusDot);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

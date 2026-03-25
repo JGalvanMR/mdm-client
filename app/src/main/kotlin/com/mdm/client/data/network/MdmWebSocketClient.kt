@@ -9,7 +9,12 @@ import com.google.gson.annotations.SerializedName
 import com.mdm.client.BuildConfig
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
-import okhttp3.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
+import okio.ByteString
 
 // ── Mensajes WS ───────────────────────────────────────────────────────────────
 data class WsCommandMessage(
@@ -180,6 +185,15 @@ class MdmWebSocketClient(private val token: String) {
         return sendJson(gson.toJson(msg))
     }
 
+fun sendBinary(data: ByteArray): Boolean {
+    return try {
+        webSocket?.send(okio.ByteString.of(*data)) ?: false
+    } catch (e: Exception) {
+        Log.e(TAG, "Error sending binary", e)
+        false
+    }
+}
+
     // ── Enviar status del dispositivo ─────────────────────────────────────────
     fun sendStatus(
             batteryLevel: Int?,
@@ -221,7 +235,7 @@ class MdmWebSocketClient(private val token: String) {
         }
     }
 
-    private fun sendJson(json: String): Boolean {
+    fun sendJson(json: String): Boolean {
         return try {
             webSocket?.send(json) ?: false
         } catch (e: Exception) {

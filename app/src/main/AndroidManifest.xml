@@ -90,7 +90,7 @@
             android:name=".service.MdmPollingService"
             android:exported="false"
             android:stopWithTask="false"
-            android:foregroundServiceType="connectedDevice" />
+            android:foregroundServiceType="connectedDevice|mediaProjection" />
 
         <service
             android:name=".service.MdmAccessibilityService"

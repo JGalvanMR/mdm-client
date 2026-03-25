@@ -13,6 +13,7 @@ color status_warning
 color text_primary
 color text_secondary
 drawable ic_mdm_status
+id btnGrantPermission
 id cardDeviceInfo
 id cardMdmStatus
 id cardServiceStatus
