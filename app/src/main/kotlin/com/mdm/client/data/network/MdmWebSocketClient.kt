@@ -1,39 +1,40 @@
 package com.mdm.client.data.network
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.mdm.client.BuildConfig
-import okhttp3.*
-import okio.ByteString
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
+import okhttp3.*
 
 // ── Mensajes WS ───────────────────────────────────────────────────────────────
 data class WsCommandMessage(
-    @SerializedName("type")        val type:        String,
-    @SerializedName("commandId")   val commandId:   Int,
-    @SerializedName("commandType") val commandType: String,
-    @SerializedName("parameters")  val parameters:  String?,
-    @SerializedName("priority")    val priority:    Int
+        @SerializedName("type") val type: String,
+        @SerializedName("commandId") val commandId: Int,
+        @SerializedName("commandType") val commandType: String,
+        @SerializedName("parameters") val parameters: String?,
+        @SerializedName("priority") val priority: Int
 )
 
 data class WsResultMessage(
-    @SerializedName("type")         val type:         String = "RESULT",
-    @SerializedName("commandId")    val commandId:    Int,
-    @SerializedName("success")      val success:      Boolean,
-    @SerializedName("resultJson")   val resultJson:   String?,
-    @SerializedName("errorMessage") val errorMessage: String?
+        @SerializedName("type") val type: String = "RESULT",
+        @SerializedName("commandId") val commandId: Int,
+        @SerializedName("success") val success: Boolean,
+        @SerializedName("resultJson") val resultJson: String?,
+        @SerializedName("errorMessage") val errorMessage: String?
 )
 
 data class WsStatusMessage(
-    @SerializedName("type")               val type:               String = "STATUS",
-    @SerializedName("batteryLevel")       val batteryLevel:       Int?,
-    @SerializedName("storageAvailableMB") val storageAvailableMB: Long?,
-    @SerializedName("kioskModeEnabled")   val kioskModeEnabled:   Boolean,
-    @SerializedName("cameraDisabled")     val cameraDisabled:     Boolean,
-    @SerializedName("ipAddress")          val ipAddress:          String?
+        @SerializedName("type") val type: String = "STATUS",
+        @SerializedName("batteryLevel") val batteryLevel: Int?,
+        @SerializedName("storageAvailableMB") val storageAvailableMB: Long?,
+        @SerializedName("kioskModeEnabled") val kioskModeEnabled: Boolean,
+        @SerializedName("cameraDisabled") val cameraDisabled: Boolean,
+        @SerializedName("ipAddress") val ipAddress: String?
 )
 
 // ── Callbacks ─────────────────────────────────────────────────────────────────
@@ -50,119 +51,152 @@ class MdmWebSocketClient(private val token: String) {
     private val TAG = "MdmWebsocketClient"
     private val gson: Gson = GsonBuilder().create()
 
-    private val wsUrl = BuildConfig.SERVER_URL
-        .trimEnd('/')
-        .replace("http://", "ws://")
-        .replace("https://", "wss://")
-        .plus("/ws/device")
+    private val wsUrl =
+            BuildConfig.SERVER_URL
+                    .trimEnd('/')
+                    .replace("http://", "ws://")
+                    .replace("https://", "wss://")
+                    .plus("/ws/device")
 
-    private val client = OkHttpClient.Builder()
-        .readTimeout(0, TimeUnit.MILLISECONDS)    // 0 = sin timeout para WS
-        .connectTimeout(10, TimeUnit.SECONDS)
-        .pingInterval(25, TimeUnit.SECONDS)       // keepalive nativo de OkHttp
-        .build()
+    private val client =
+            OkHttpClient.Builder()
+                    .readTimeout(0, TimeUnit.MILLISECONDS) // 0 = sin timeout para WS
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .pingInterval(25, TimeUnit.SECONDS) // keepalive nativo de OkHttp
+                    .build()
 
     private var webSocket: WebSocket? = null
     private var listener: WsEventListener? = null
 
-    @Volatile var isConnected = false
+    @Volatile
+    var isConnected = false
         private set
 
     private val isConnecting = AtomicBoolean(false)
+    private val reconnectDelayMs = 5000L
+    private val maxReconnectAttempts = 10
+    private var reconnectAttempts = 0
+    private var shouldReconnect = true
 
     // ── Conectar ──────────────────────────────────────────────────────────────
     fun connect(eventListener: WsEventListener) {
         if (isConnected || isConnecting.getAndSet(true)) return
         listener = eventListener
+        shouldReconnect = true
 
-        val request = Request.Builder()
-            .url(wsUrl)
-            .header("Device-Token", token)
-            .header("Accept", "application/json")
-            .build()
+        performConnection()
+    }
 
-        Log.i(TAG, "Conectando a $wsUrl")
+    private fun performConnection() {
+        val request =
+                Request.Builder()
+                        .url(wsUrl)
+                        .header("Device-Token", token)
+                        .header("Accept", "application/json")
+                        .build()
 
-        webSocket = client.newWebSocket(request, object : WebSocketListener() {
+        webSocket =
+                client.newWebSocket(
+                        request,
+                        object : WebSocketListener() {
+                            override fun onOpen(ws: WebSocket, response: Response) {
+                                isConnected = true
+                                isConnecting.set(false)
+                                reconnectAttempts = 0
+                                Log.i(TAG, "WS conectado.")
+                                listener?.onConnected()
+                            }
 
-            override fun onOpen(ws: WebSocket, response: Response) {
-                isConnected = true
-                isConnecting.set(false)
-                Log.i(TAG, "WS conectado.")
-                listener?.onConnected()
-            }
+                            override fun onMessage(ws: WebSocket, text: String) {
+                                handleIncoming(text)
+                            }
 
-            override fun onMessage(ws: WebSocket, text: String) {
-                Log.d(TAG, "WS mensaje: ${text.take(200)}")
-                handleIncoming(text)
-            }
+                            override fun onClosing(ws: WebSocket, code: Int, reason: String) {
+                                Log.i(TAG, "WS cerrando: $code $reason")
+                                ws.close(1000, null)
+                            }
 
-            override fun onMessage(ws: WebSocket, bytes: ByteString) {
-                handleIncoming(bytes.utf8())
-            }
+                            override fun onClosed(ws: WebSocket, code: Int, reason: String) {
+                                isConnected = false
+                                isConnecting.set(false)
+                                listener?.onDisconnected(reason)
+                                attemptReconnect()
+                            }
 
-            override fun onClosing(ws: WebSocket, code: Int, reason: String) {
-                Log.i(TAG, "WS cerrando: $code $reason")
-                ws.close(1000, null)
-            }
+                            override fun onFailure(
+                                    ws: WebSocket,
+                                    t: Throwable,
+                                    response: Response?
+                            ) {
+                                isConnected = false
+                                isConnecting.set(false)
+                                Log.e(TAG, "WS error: ${t.message}")
+                                listener?.onError(t.message ?: "Error desconocido")
+                                attemptReconnect()
+                            }
+                        }
+                )
+    }
 
-            override fun onClosed(ws: WebSocket, code: Int, reason: String) {
-                isConnected = false
-                isConnecting.set(false)
-                Log.i(TAG, "WS cerrado: $code $reason")
-                listener?.onDisconnected(reason)
-            }
+    private fun attemptReconnect() {
+        if (!shouldReconnect || reconnectAttempts >= maxReconnectAttempts) return
 
-            override fun onFailure(ws: WebSocket, t: Throwable, response: Response?) {
-                isConnected = false
-                isConnecting.set(false)
-                Log.e(TAG, "WS error: ${t.message}")
-                listener?.onError(t.message ?: "Error desconocido")
-                listener?.onDisconnected("Error: ${t.message}")
-            }
-        })
+        reconnectAttempts++
+        Log.w(TAG, "Reconectando en ${reconnectDelayMs}ms... (intento $reconnectAttempts)")
+
+        Handler(Looper.getMainLooper())
+                .postDelayed(
+                        {
+                            if (!isConnected && shouldReconnect) {
+                                performConnection()
+                            }
+                        },
+                        reconnectDelayMs * reconnectAttempts
+                ) // Backoff exponencial simple
     }
 
     fun disconnect() {
+        shouldReconnect = false
         webSocket?.close(1000, "Cliente cerrando")
         webSocket = null
         isConnected = false
-        isConnecting.set(false)
     }
 
     // ── Enviar resultado de comando ───────────────────────────────────────────
     fun sendResult(
-        commandId: Int,
-        success: Boolean,
-        resultJson: String?,
-        errorMessage: String?
+            commandId: Int,
+            success: Boolean,
+            resultJson: String?,
+            errorMessage: String?
     ): Boolean {
         if (!isConnected) return false
-        val msg = WsResultMessage(
-            commandId    = commandId,
-            success      = success,
-            resultJson   = resultJson,
-            errorMessage = errorMessage
-        )
+        val msg =
+                WsResultMessage(
+                        commandId = commandId,
+                        success = success,
+                        resultJson = resultJson,
+                        errorMessage = errorMessage
+                )
         return sendJson(gson.toJson(msg))
     }
 
     // ── Enviar status del dispositivo ─────────────────────────────────────────
     fun sendStatus(
-        batteryLevel: Int?,
-        storageMB: Long?,
-        kioskMode: Boolean,
-        cameraDisabled: Boolean,
-        ip: String?
+            batteryLevel: Int?,
+            storageMB: Long?,
+            kioskMode: Boolean,
+            cameraDisabled: Boolean,
+            ip: String?
     ): Boolean {
         if (!isConnected) return false
-        val msg = WsStatusMessage(
-            batteryLevel       = batteryLevel,
-            storageAvailableMB = storageMB,
-            kioskModeEnabled   = kioskMode,
-            cameraDisabled     = cameraDisabled,
-            ipAddress          = ip
-        )
+        val msg =
+                WsStatusMessage(
+                        batteryLevel = batteryLevel,
+                        storageAvailableMB = storageMB,
+                        kioskModeEnabled = kioskMode,
+                        cameraDisabled = cameraDisabled,
+                        ipAddress = ip
+                )
         return sendJson(gson.toJson(msg))
     }
 

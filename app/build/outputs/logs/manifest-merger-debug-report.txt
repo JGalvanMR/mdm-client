@@ -124,9 +124,9 @@ ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:15:5-81
 	android:name
 		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:15:22-78
 uses-permission#android.permission.ACCESS_BACKGROUND_LOCATION
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:2-82
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:5-85
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:19-79
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:22-82
 uses-permission#android.permission.BLUETOOTH
 ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:17:5-18:38
 	android:maxSdkVersion
@@ -164,9 +164,9 @@ ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:26:5-27
 	android:name
 		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:26:22-70
 uses-permission#android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:28:2-91
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:28:5-94
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:28:19-88
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:28:22-91
 application
 ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:30:5-107:19
 INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:30:5-107:19
@@ -233,13 +233,13 @@ ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:44:17-7
 	android:name
 		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:44:27-74
 activity#com.mdm.client.ui.ScreenCapturePermissionActivity
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:48:3-51:67
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:48:9-51:75
 	android:exported
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:50:5-28
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:50:13-36
 	android:theme
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:51:5-64
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:51:13-72
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:49:5-55
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:49:13-63
 receiver#com.mdm.client.receiver.DeviceOwnerReceiver
 ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:58:9-77:20
 	android:label
@@ -291,27 +291,27 @@ ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:88:9-92
 	android:name
 		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:89:13-54
 service#com.mdm.client.service.MdmAccessibilityService
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:94:3-105:11
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:94:9-105:19
 	android:label
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:98:5-35
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:98:13-43
 	android:exported
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:97:5-28
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:97:13-36
 	android:permission
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:96:5-71
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:96:13-79
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:95:5-52
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:95:13-60
 intent-filter#action:name:android.accessibilityservice.AccessibilityService
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:99:5-101:21
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:99:13-101:29
 action#android.accessibilityservice.AccessibilityService
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:100:9-84
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:100:17-92
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:100:17-81
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:100:25-89
 meta-data#android.accessibilityservice
-ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:102:5-104:64
+ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:102:13-104:72
 	android:resource
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:104:9-61
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:104:17-69
 	android:name
-		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:103:9-52
+		ADDED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:103:17-60
 uses-sdk
 INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml

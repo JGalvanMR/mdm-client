@@ -42,8 +42,8 @@
 21-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:15:5-81
 21-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:15:22-78
 22    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-22-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:2-82
-22-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:19-79
+22-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:5-85
+22-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:16:22-82
 23    <uses-permission
 23-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:17:5-18:38
 24        android:name="android.permission.BLUETOOTH"
@@ -72,8 +72,8 @@
 33-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:26:5-27:47
 33-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:26:22-70
 34    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
-34-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:28:2-91
-34-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:28:19-88
+34-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:28:5-94
+34-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:28:22-91
 35
 36    <permission
 36-->[androidx.core:core:1.12.0] C:\Users\jesus.DESKTOP-RGDD49H\.gradle\caches\transforms-3\440a64c1659b3784956be1ef27019da1\transformed\core-1.12.0\AndroidManifest.xml:22:5-24:47
@@ -124,13 +124,13 @@
 60            </intent-filter>
 61        </activity>
 62        <activity
-62-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:48:3-51:67
+62-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:48:9-51:75
 63            android:name="com.mdm.client.ui.ScreenCapturePermissionActivity"
-63-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:49:5-55
+63-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:49:13-63
 64            android:exported="true"
-64-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:50:5-28
+64-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:50:13-36
 65            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-65-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:51:5-64
+65-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:51:13-72
 66
 67        <!--
 68            CRÍTICO: El receiver DEBE tener exactamente estos atributos.
@@ -197,28 +197,28 @@
 105            android:stopWithTask="false" />
 105-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:91:13-41
 106        <service
-106-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:94:3-105:11
+106-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:94:9-105:19
 107            android:name="com.mdm.client.service.MdmAccessibilityService"
-107-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:95:5-52
+107-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:95:13-60
 108            android:exported="true"
-108-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:97:5-28
+108-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:97:13-36
 109            android:label="MDM Screenshot"
-109-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:98:5-35
+109-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:98:13-43
 110            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
-110-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:96:5-71
+110-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:96:13-79
 111            <intent-filter>
-111-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:99:5-101:21
+111-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:99:13-101:29
 112                <action android:name="android.accessibilityservice.AccessibilityService" />
-112-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:100:9-84
-112-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:100:17-81
+112-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:100:17-92
+112-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:100:25-89
 113            </intent-filter>
 114
 115            <meta-data
-115-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:102:5-104:64
+115-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:102:13-104:72
 116                android:name="android.accessibilityservice"
-116-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:103:9-52
+116-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:103:17-60
 117                android:resource="@xml/accessibility_service_config" />
-117-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:104:9-61
+117-->C:\GitHub\MDMBase\mdm-client\app\src\main\AndroidManifest.xml:104:17-69
 118        </service>
 119
 120        <activity

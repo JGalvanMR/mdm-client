@@ -1,134 +1,112 @@
 package com.mdm.client.service
 
 import android.accessibilityservice.AccessibilityService
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
-import android.util.Base64
-import android.util.Log
+import android.view.Display
 import android.view.accessibility.AccessibilityEvent
-import androidx.core.content.ContextCompat
+import com.mdm.client.core.MdmLog
 import java.io.ByteArrayOutputStream
+import android.util.Base64
 
 class MdmAccessibilityService : AccessibilityService() {
+    
+    private val TAG = "MdmAccessibilityService"
+    
     companion object {
-        private const val TAG = "MdmAccessibility"
-        var instance: MdmAccessibilityService? = null
-            private set
+        @Volatile private var instance: MdmAccessibilityService? = null
+        private var isServiceReady = false
         
-        // Constantes literales para Android 11+
-        private const val FLAG_SELECTED = 0
-        private const val FLAG_FULLSCREEN = 1
-        
-        fun isReady(): Boolean = instance != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+        fun getInstance(): MdmAccessibilityService? = instance
+        fun isReady(): Boolean = isServiceReady && instance != null
     }
 
     override fun onServiceConnected() {
         super.onServiceConnected()
         instance = this
-        Log.i(TAG, "✅ Servicio conectado")
+        isServiceReady = true
+        MdmLog.i(TAG, "Servicio de accesibilidad conectado.")
     }
 
-    override fun onUnbind(intent: Intent?): Boolean {
-        Log.w(TAG, "❌ Servicio desconectado")
+    override fun onDestroy() {
+        isServiceReady = false
         instance = null
-        return super.onUnbind(intent)
+        super.onDestroy()
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {}
     override fun onInterrupt() {}
 
-    fun takeScreenshot(commandId: Int, callback: (success: Boolean, result: String) -> Unit) {
-        Log.d(TAG, "Intentando screenshot cmd=$commandId")
-        
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            callback(false, "REQUIERE_ANDROID_11")
+    /**
+     * Toma screenshot y devuelve Base64 directamente
+     * @param displayId -1 para pantalla por defecto, o Display.DEFAULT_DISPLAY (0)
+     * @param callback (success: Boolean, jsonResult: String)
+     */
+    fun takeScreenshot(displayId: Int, callback: (Boolean, String) -> Unit) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) { // API 30+
+            callback(false, """{"error":"Requiere Android 11+ (API 30)"}""")
             return
         }
 
-        try {
-            // Intentar con FLAG_SELECTED (0) primero
-            takeScreenshot(
-                FLAG_SELECTED,
-                ContextCompat.getMainExecutor(this),
-                object : TakeScreenshotCallback {
-                    override fun onSuccess(screenshot: ScreenshotResult) {
-                        Log.i(TAG, "Screenshot OK cmd=$commandId")
-                        processScreenshot(screenshot, callback)
-                    }
-
-                    override fun onFailure(errorCode: Int) {
-                        Log.e(TAG, "Screenshot falló código=$errorCode")
+        // Usar Display.DEFAULT_DISPLAY (valor 0) si se pasa -1
+        val targetDisplayId = if (displayId == -1) Display.DEFAULT_DISPLAY else displayId
+        
+        takeScreenshot(
+            targetDisplayId,
+            mainExecutor,
+            object : TakeScreenshotCallback {
+                override fun onSuccess(result: ScreenshotResult) {
+                    try {
+                        val bitmap = Bitmap.wrapHardwareBuffer(
+                            result.hardwareBuffer,
+                            result.colorSpace
+                        )?.copy(Bitmap.Config.ARGB_8888, false)
                         
-                        // Si falla, intentar con FLAG_FULLSCREEN (1)
-                        if (errorCode == 4) {
-                            Log.w(TAG, "Intentando con FLAG fullscreen...")
-                            tryFullscreenScreenshot(callback)
-                        } else {
-                            callback(false, errorCodeToString(errorCode))
+                        result.hardwareBuffer.close()
+                        
+                        if (bitmap == null) {
+                            callback(false, """{"error":"No se pudo procesar el bitmap"}""")
+                            return
                         }
+
+                        // Comprimir y convertir a Base64
+                        val outputStream = ByteArrayOutputStream()
+                        val compressed = bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream)
+                        
+                        if (!compressed) {
+                            bitmap.recycle()
+                            callback(false, """{"error":"Error comprimiendo imagen"}""")
+                            return
+                        }
+                        
+                        val byteArray = outputStream.toByteArray()
+                        val base64 = Base64.encodeToString(byteArray, Base64.NO_WRAP)
+                        
+                        // Liberar memoria
+                        bitmap.recycle()
+                        outputStream.close()
+                        
+                        // Respuesta con metadata
+                        val sizeKB = byteArray.size / 1024
+                        val jsonResult = """{"screenshot":"$base64","sizeKB":$sizeKB,"format":"jpeg"}"""
+                        callback(true, jsonResult)
+                        
+                    } catch (e: Exception) {
+                        MdmLog.e(TAG, "Error procesando screenshot: ${e.message}")
+                        callback(false, """{"error":"${e.message}"}""")
                     }
                 }
-            )
-        } catch (e: Exception) {
-            Log.e(TAG, "Excepción: ${e.message}")
-            callback(false, "EXCEPCION: ${e.message}")
-        }
-    }
 
-    private fun tryFullscreenScreenshot(callback: (success: Boolean, result: String) -> Unit) {
-        try {
-            takeScreenshot(
-                FLAG_FULLSCREEN,
-                ContextCompat.getMainExecutor(this),
-                object : TakeScreenshotCallback {
-                    override fun onSuccess(screenshot: ScreenshotResult) {
-                        processScreenshot(screenshot, callback)
+                override fun onFailure(errorCode: Int) {
+                    // Valores literales: ERROR_SCREENSHOT_NO_PERMISSIONS=1, ERROR_SCREENSHOT_SECURITY_POLICY=2
+                    val errorMsg = when (errorCode) {
+                        1 -> "Sin permisos de screenshot"
+                        2 -> "Bloqueado por política de seguridad" 
+                        else -> "Error código: $errorCode"
                     }
-                    override fun onFailure(errorCode: Int) {
-                        callback(false, errorCodeToString(errorCode))
-                    }
+                    callback(false, """{"error":"$errorMsg","code":$errorCode}""")
                 }
-            )
-        } catch (e: Exception) {
-            callback(false, "ERROR_FALLBACK: ${e.message}")
-        }
-    }
-
-    private fun processScreenshot(screenshot: ScreenshotResult, callback: (success: Boolean, result: String) -> Unit) {
-        try {
-            val hardwareBuffer = screenshot.hardwareBuffer
-            val bitmap = Bitmap.wrapHardwareBuffer(hardwareBuffer, null)
-            
-            if (bitmap == null) {
-                callback(false, "NO_BITMAP")
-                return
             }
-            
-            val base64 = bitmapToBase64(bitmap)
-            val sizeKB = bitmap.byteCount / 1024
-            hardwareBuffer.close()
-            bitmap.recycle()
-            
-            callback(true, """{"screenshot":"$base64","sizeKB":$sizeKB}""")
-        } catch (e: Exception) {
-            callback(false, "PROCESS_ERROR: ${e.message}")
-        }
-    }
-
-    private fun errorCodeToString(code: Int): String {
-        return when(code) {
-            1 -> "ERROR_NO_PERMISO"
-            2 -> "ERROR_INTERVALO_CORTO" 
-            3 -> "ERROR_DISPLAY_INVALIDO"
-            4 -> "ERROR_POLITICA_RESTRINGIDA"
-            else -> "ERROR_CODIGO_$code"
-        }
-    }
-
-    private fun bitmapToBase64(bitmap: Bitmap): String {
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, stream)
-        return Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT)
+        )
     }
 }
