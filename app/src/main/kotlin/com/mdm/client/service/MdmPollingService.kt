@@ -26,6 +26,7 @@ import com.mdm.client.data.network.WsEventListener
 import com.mdm.client.data.prefs.DevicePrefs
 import com.mdm.client.data.queue.CommandResultQueue
 import com.mdm.client.device.DeviceInfoCollector
+import com.mdm.client.ui.ScreenCapturePermissionActivity
 import kotlinx.coroutines.*
 
 class MdmPollingService : Service() {
@@ -70,25 +71,25 @@ class MdmPollingService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-    if (intent?.action == "ACTION_GRANT_SCREEN_CAPTURE") {
-        requestScreenCapturePermission()
-    } else if (!isRunning) {
-        isRunning = true
-        scope.launch { mainLoop() }
+        if (intent?.action == "ACTION_GRANT_SCREEN_CAPTURE") {
+            requestScreenCapturePermission()
+        } else if (!isRunning) {
+            isRunning = true
+            scope.launch { mainLoop() }
+        }
+        return START_STICKY
     }
-    return START_STICKY
-}
 
-private fun requestScreenCapturePermission() {
-    try {
-        val intent = Intent(this, ScreenCapturePermissionActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
-        MdmLog.i(TAG, "Lanzada actividad de solicitud de permiso de captura.")
-    } catch (e: Exception) {
-        MdmLog.e(TAG, "Error lanzando actividad de permiso: ${e.message}")
+    private fun requestScreenCapturePermission() {
+        try {
+            val intent = Intent(this, ScreenCapturePermissionActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            MdmLog.i(TAG, "Lanzada actividad de solicitud de permiso de captura.")
+        } catch (e: Exception) {
+            MdmLog.e(TAG, "Error lanzando actividad de permiso: ${e.message}")
+        }
     }
-}
 
     override fun onDestroy() {
         isRunning = false
