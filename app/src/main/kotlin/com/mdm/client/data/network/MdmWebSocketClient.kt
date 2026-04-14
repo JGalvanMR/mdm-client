@@ -185,14 +185,14 @@ class MdmWebSocketClient(private val token: String) {
         return sendJson(gson.toJson(msg))
     }
 
-fun sendBinary(data: ByteArray): Boolean {
-    return try {
-        webSocket?.send(okio.ByteString.of(*data)) ?: false
-    } catch (e: Exception) {
-        Log.e(TAG, "Error sending binary", e)
-        false
+    fun sendBinary(data: ByteArray): Boolean {
+        return try {
+            webSocket?.send(okio.ByteString.of(*data)) ?: false
+        } catch (e: Exception) {
+            Log.e(TAG, "Error sending binary", e)
+            false
+        }
     }
-}
 
     // ── Enviar status del dispositivo ─────────────────────────────────────────
     fun sendStatus(
@@ -224,6 +224,21 @@ fun sendBinary(data: ByteArray): Boolean {
                 "COMMAND" -> {
                     val cmd = gson.fromJson(text, WsCommandMessage::class.java)
                     listener?.onCommand(cmd)
+                }
+                "INPUT" -> {
+                    // Input remoto desde el viewer web
+                    val inputJson = text // El texto completo es el JSON del input
+                    // Procesar como comando INPUT
+                    // Esto se maneja igual que un comando normal, pero viene por WS
+                    listener?.onCommand(
+                            WsCommandMessage(
+                                    type = "INPUT",
+                                    commandId = 0, // Los inputs no tienen ID de comando
+                                    commandType = "INPUT",
+                                    parameters = inputJson,
+                                    priority = 5
+                            )
+                    )
                 }
                 "PING" -> {
                     sendJson("""{"type":"PONG"}""")

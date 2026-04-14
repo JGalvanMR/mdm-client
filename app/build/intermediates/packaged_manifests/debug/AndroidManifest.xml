@@ -62,8 +62,11 @@
         </activity>
         <activity
             android:name="com.mdm.client.ui.ScreenCapturePermissionActivity"
+            android:excludeFromRecents="true"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
 
         <!--
             CRÍTICO: El receiver DEBE tener exactamente estos atributos.

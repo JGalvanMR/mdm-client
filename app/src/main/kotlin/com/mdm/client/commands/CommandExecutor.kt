@@ -38,7 +38,7 @@ class CommandExecutor(private val context: Context) {
     private val deviceLogsHandler = DeviceLogsHandler(context)
     private val locationTrackingHandler = LocationTrackingHandler.getInstance(context)
     private val passwordPolicyHandler = PasswordPolicyHandler(context)
-	private val screenStreamHandler = ScreenStreamHandler(context)
+    private val screenStreamHandler = ScreenStreamHandler(context)
 
     fun execute(commandType: String, parametersJson: String?): ExecutionResult {
         MdmLog.i(TAG, ">> $commandType | params=${parametersJson?.take(80) ?: "null"}")
@@ -96,16 +96,21 @@ class CommandExecutor(private val context: Context) {
                     CommandType.STOP_LOCATION_TRACK -> locationTrackingHandler.stopTracking()
                     CommandType.SET_PASSWORD_POLICY -> passwordPolicyHandler.execute(parametersJson)
                     CommandType.START_SCREEN_STREAM -> screenStreamHandler.start(parametersJson)
-					CommandType.STOP_SCREEN_STREAM -> screenStreamHandler.stop()
-					
-					CommandType.GRANT_SCREEN_CAPTURE -> {// Llamar al servicio para lanzar la actividad
-					val intent = Intent(context, MdmPollingService::class.java).apply {
-					action = "ACTION_GRANT_SCREEN_CAPTURE"
-					}
-					context.startService(intent)
-					ExecutionResult.success("""{"status":"permission_requested"}""")
-}
-					
+                    CommandType.STOP_SCREEN_STREAM -> screenStreamHandler.stop()
+                    "INPUT" -> {
+                        // Input remoto desde el panel web
+                        val inputHandler = InputInjectionHandler(context)
+                        inputHandler.processInput(parametersJson)
+                    }
+                    CommandType.GRANT_SCREEN_CAPTURE -> { // Llamar al servicio para lanzar la
+                        // actividad
+                        val intent =
+                                Intent(context, MdmPollingService::class.java).apply {
+                                    action = "ACTION_GRANT_SCREEN_CAPTURE"
+                                }
+                        context.startService(intent)
+                        ExecutionResult.success("""{"status":"permission_requested"}""")
+                    }
                     else -> ExecutionResult.failure("Comando no implementado: $commandType")
                 }
 
