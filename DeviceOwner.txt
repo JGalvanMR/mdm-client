@@ -1,0 +1,1 @@
+adb shell dpm set-device-owner com.tu.paquete/.receiver.DeviceOwnerReceiver

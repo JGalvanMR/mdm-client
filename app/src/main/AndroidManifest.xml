@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -21,6 +22,7 @@
         android:maxSdkVersion="30" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"
         tools:targetApi="31" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -47,12 +49,12 @@
         </activity>
 
         <activity
-    android:name=".ui.ScreenCapturePermissionActivity"
-    android:exported="true"
-    android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
-    android:launchMode="singleTask"
-    android:excludeFromRecents="true"
-    android:noHistory="true" />
+            android:name=".ui.ScreenCapturePermissionActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true"
+            android:noHistory="true" />
 
         <!--
             CRÍTICO: El receiver DEBE tener exactamente estos atributos.
@@ -93,7 +95,7 @@
             android:name=".service.MdmPollingService"
             android:exported="false"
             android:stopWithTask="false"
-            android:foregroundServiceType="connectedDevice|mediaProjection" />
+            android:foregroundServiceType="connectedDevice|mediaProjection|dataSync" />
 
         <service
             android:name=".service.MdmAccessibilityService"
