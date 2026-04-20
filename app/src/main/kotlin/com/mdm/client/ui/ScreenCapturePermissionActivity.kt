@@ -1,57 +1,35 @@
 package com.mdm.client.ui
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.media.projection.MediaProjectionManager
 import android.os.Bundle
 import android.util.Log
+import com.mdm.client.commands.handlers.ScreenStreamHandler
 import com.mdm.client.utils.MediaProjectionHolder
 
-class ScreenCapturePermissionActivity : Activity() {  // Cambiado a Activity simple
-    
-    private val TAG = "ScreenCapturePerm"
-    private val REQUEST_CODE_SCREEN_CAPTURE = 1001
-    private lateinit var projectionManager: MediaProjectionManager
+class ScreenCapturePermissionActivity : Activity() {
+    private lateinit var mediaProjectionManager: MediaProjectionManager
+    private val REQUEST_CODE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i(TAG, "Iniciando solicitud de permiso MediaProjection")
-        
-        try {
-            projectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-            val captureIntent = projectionManager.createScreenCaptureIntent()
-            startActivityForResult(captureIntent, REQUEST_CODE_SCREEN_CAPTURE)
-        } catch (e: Exception) {
-            Log.e(TAG, "Error iniciando captura: ${e.message}", e)
-            finish()
-        }
+        mediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(), REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.i(TAG, "Resultado: requestCode=$requestCode, resultCode=$resultCode")
-        
-        if (requestCode == REQUEST_CODE_SCREEN_CAPTURE && resultCode == RESULT_OK && data != null) {
-            try {
-                val mediaProjection = projectionManager.getMediaProjection(resultCode, data)
-                MediaProjectionHolder.instance = mediaProjection
-                Log.i(TAG, "MediaProjection guardado exitosamente")
-                
-                // Notificar al servicio que ya hay permiso (opcional, para auto-reintentar)
-                sendBroadcast(Intent("com.mdm.client.SCREEN_CAPTURE_GRANTED"))
-            } catch (e: Exception) {
-                Log.e(TAG, "Error guardando MediaProjection: ${e.message}", e)
-            }
-        } else {
-            Log.w(TAG, "Permiso denegado o cancelado por usuario")
-        }
-        
-        finish()
-    }
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            val projection = mediaProjectionManager.getMediaProjection(resultCode, data)
+            MediaProjectionHolder.instance = projection
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "Activity destruida")
+            // Obtener los parámetros guardados en el handler
+            val handler = ScreenStreamHandler(applicationContext)
+            handler.onPermissionGranted(projection, null) // Los parámetros ya están en pendingParams
+
+        } else {
+            Log.w("ScreenCapture", "Permiso de captura denegado")
+        }
+        finish()
     }
 }
