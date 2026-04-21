@@ -17,16 +17,18 @@ class WakeScreenHandler(private val context: Context) {
             // SCREEN_BRIGHT_WAKE_LOCK + ACQUIRE_CAUSES_WAKEUP enciende la pantalla
             // aunque esté apagada — sin necesidad de interacción física
             @Suppress("DEPRECATION")
-            val wl = pm.newWakeLock(
-                PowerManager.SCREEN_BRIGHT_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP,
-                "MdmClient::WakeScreen"
-            )
-            wl.acquire(3_000L)  // mantener 3s y soltar
+            val wl =
+                    pm.newWakeLock(
+                            PowerManager.SCREEN_BRIGHT_WAKE_LOCK or
+                                    PowerManager.ACQUIRE_CAUSES_WAKEUP,
+                            "MdmClient::WakeScreen"
+                    )
+            wl.acquire(3_000L) // mantener 3s y soltar
             wl.release()
 
             MdmLog.i(TAG, "Pantalla encendida remotamente.")
             ExecutionResult.success(
-                """{"wakeScreen":true,"timestamp":${System.currentTimeMillis()}}"""
+                    """{"wakeScreen":true,"timestamp":${System.currentTimeMillis()}}"""
             )
         } catch (e: Exception) {
             MdmLog.e(TAG, "Error encendiendo pantalla: ${e.message}", e)

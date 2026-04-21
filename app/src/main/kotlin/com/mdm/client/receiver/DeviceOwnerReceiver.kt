@@ -3,7 +3,6 @@ package com.mdm.client.receiver
 import android.app.admin.DeviceAdminReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.mdm.client.core.MdmLog
 import com.mdm.client.service.MdmPollingService
 
@@ -50,9 +49,7 @@ class DeviceOwnerReceiver : DeviceAdminReceiver() {
 
     private fun startService(context: Context) {
         try {
-            context.startForegroundService(
-                Intent(context, MdmPollingService::class.java)
-            )
+            context.startForegroundService(Intent(context, MdmPollingService::class.java))
         } catch (e: Exception) {
             MdmLog.e(TAG, "Error iniciando servicio: ${e.message}", e)
         }

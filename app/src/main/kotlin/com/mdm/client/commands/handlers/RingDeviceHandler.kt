@@ -13,19 +13,22 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RingDeviceHandler(private val context: Context) {
-    private val TAG  = "RingDeviceHandler"
+    private val TAG = "RingDeviceHandler"
     private val gson = Gson()
 
     fun execute(parametersJson: String?): ExecutionResult {
         return try {
-            val durationMs = try {
-                val params = parametersJson?.let { JsonParser.parseString(it).asJsonObject }
-                (params?.get("seconds")?.asInt ?: 10) * 1000L
-            } catch (e: Exception) { 10_000L }
+            val durationMs =
+                    try {
+                        val params = parametersJson?.let { JsonParser.parseString(it).asJsonObject }
+                        (params?.get("seconds")?.asInt ?: 10) * 1000L
+                    } catch (e: Exception) {
+                        10_000L
+                    }
 
-            val audio  = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-            val uri    = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-            val ring   = RingtoneManager.getRingtone(context, uri)
+            val audio = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+            val ring = RingtoneManager.getRingtone(context, uri)
 
             // Forzar volumen al máximo para que se escuche
             val maxVol = audio.getStreamMaxVolume(AudioManager.STREAM_ALARM)

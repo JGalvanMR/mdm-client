@@ -10,13 +10,15 @@ import com.mdm.client.device.DeviceOwnerChecker
 
 class KioskModeHandler(private val context: Context) {
 
-    private val TAG     = "KioskModeHandler"
+    private val TAG = "KioskModeHandler"
     private val checker = DeviceOwnerChecker(context)
-    private val prefs   = DevicePrefs(context)
+    private val prefs = DevicePrefs(context)
 
     fun execute(enable: Boolean): ExecutionResult {
         if (!checker.isDeviceOwner()) {
-            return ExecutionResult.failure("La app no es Device Owner. No se puede activar kiosk mode.")
+            return ExecutionResult.failure(
+                    "La app no es Device Owner. No se puede activar kiosk mode."
+            )
         }
 
         return try {
@@ -36,10 +38,7 @@ class KioskModeHandler(private val context: Context) {
 
     private fun enableKiosk(): ExecutionResult {
         // Autorizar este paquete para lock task
-        checker.getDpm().setLockTaskPackages(
-            checker.adminComponent,
-            arrayOf(context.packageName)
-        )
+        checker.getDpm().setLockTaskPackages(checker.adminComponent, arrayOf(context.packageName))
         prefs.kioskModeEnabled = true
 
         // Enviar broadcast a MainActivity para que llame startLockTask()

@@ -18,32 +18,34 @@ class DeviceOwnerChecker(private val context: Context) {
         ComponentName(context, DeviceOwnerReceiver::class.java)
     }
 
-    fun isDeviceOwner(): Boolean =
-        dpmManager.isDeviceOwnerApp(context.packageName)
+    fun isDeviceOwner(): Boolean = dpmManager.isDeviceOwnerApp(context.packageName)
 
-    fun isDeviceAdmin(): Boolean =
-        dpmManager.isAdminActive(adminComponent)
+    fun isDeviceAdmin(): Boolean = dpmManager.isAdminActive(adminComponent)
 
     /**
-     * Diagnóstico completo del estado de permisos.
-     * Retorna lista de problemas encontrados (vacía = todo OK).
+     * Diagnóstico completo del estado de permisos. Retorna lista de problemas encontrados (vacía =
+     * todo OK).
      */
     fun diagnose(): List<String> {
         val issues = mutableListOf<String>()
 
         if (!isDeviceAdmin()) {
-            issues.add("NO es Device Admin. El componente ${adminComponent.className} no está activo.")
+            issues.add(
+                    "NO es Device Admin. El componente ${adminComponent.className} no está activo."
+            )
         }
 
         if (!isDeviceOwner()) {
             issues.add(
-                "NO es Device Owner. Ejecuta:\n" +
-                "adb shell dpmManager set-device-owner ${context.packageName}/.receiver.DeviceOwnerReceiver"
+                    "NO es Device Owner. Ejecuta:\n" +
+                            "adb shell dpmManager set-device-owner ${context.packageName}/.receiver.DeviceOwnerReceiver"
             )
         }
 
         if (!isDeviceAdmin() && !isDeviceOwner()) {
-            issues.add("ADVERTENCIA CRÍTICA: Sin permisos de administración. Los comandos MDM fallarán.")
+            issues.add(
+                    "ADVERTENCIA CRÍTICA: Sin permisos de administración. Los comandos MDM fallarán."
+            )
         }
 
         if (issues.isEmpty()) {

@@ -2,10 +2,7 @@ package com.mdm.client
 
 import android.app.Application
 import androidx.work.*
-import com.mdm.client.core.Constants
 import com.mdm.client.core.MdmLog
-import com.mdm.client.worker.MdmSyncWorker
-import java.util.concurrent.TimeUnit
 
 class App : Application(), Configuration.Provider {
 
@@ -23,7 +20,5 @@ class App : Application(), Configuration.Provider {
 
     // WorkManager con configuración personalizada (inicialización manual)
     override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
-            .setMinimumLoggingLevel(android.util.Log.INFO)
-            .build()
+        get() = Configuration.Builder().setMinimumLoggingLevel(android.util.Log.INFO).build()
 }

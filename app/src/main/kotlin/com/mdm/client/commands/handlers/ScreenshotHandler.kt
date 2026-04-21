@@ -19,7 +19,7 @@ class ScreenshotHandler(private val context: Context) {
         if (!MdmAccessibilityService.isReady()) {
             Log.e(TAG, "Servicio no listo. Instance=${MdmAccessibilityService.getInstance()}")
             return ExecutionResult.failure(
-                "Accessibility Service no activo. Ve a Ajustes > Accesibilidad y activa MDM Screenshot."
+                    "Accessibility Service no activo. Ve a Ajustes > Accesibilidad y activa MDM Screenshot."
             )
         }
 
@@ -29,18 +29,23 @@ class ScreenshotHandler(private val context: Context) {
         var result: ExecutionResult = ExecutionResult.failure("Timeout")
 
         // Timeout de seguridad
-        val timeoutThread = Thread {
-            try {
-                Thread.sleep(10000) // 10 segundos max
-                if (!completed.get()) {
-                    Log.w(TAG, "Timeout forzado")
-                    result = ExecutionResult.failure("""{"error":"Timeout esperando screenshot (10s)"}""")
-                    latch.countDown()
+        val timeoutThread =
+                Thread {
+                    try {
+                        Thread.sleep(10000) // 10 segundos max
+                        if (!completed.get()) {
+                            Log.w(TAG, "Timeout forzado")
+                            result =
+                                    ExecutionResult.failure(
+                                            """{"error":"Timeout esperando screenshot (10s)"}"""
+                                    )
+                            latch.countDown()
+                        }
+                    } catch (e: InterruptedException) {
+                        // Normal si completa antes
+                    }
                 }
-            } catch (e: InterruptedException) {
-                // Normal si completa antes
-            }
-        }.apply { isDaemon = true }
+                        .apply { isDaemon = true }
 
         timeoutThread.start()
 
@@ -48,14 +53,15 @@ class ScreenshotHandler(private val context: Context) {
             try {
                 service.takeScreenshot(-1) { success, data ->
                     if (completed.getAndSet(true)) return@takeScreenshot // Evitar doble llamada
-                    
-                    result = if (success) {
-                        Log.i(TAG, "Screenshot exitoso: ${data.length} chars")
-                        ExecutionResult.success(data)
-                    } else {
-                        Log.e(TAG, "Error del servicio: $data")
-                        ExecutionResult.failure(data)
-                    }
+
+                    result =
+                            if (success) {
+                                Log.i(TAG, "Screenshot exitoso: ${data.length} chars")
+                                ExecutionResult.success(data)
+                            } else {
+                                Log.e(TAG, "Error del servicio: $data")
+                                ExecutionResult.failure(data)
+                            }
                     latch.countDown()
                 }
             } catch (e: Exception) {

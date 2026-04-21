@@ -9,20 +9,22 @@ import com.mdm.client.device.DeviceOwnerChecker
 
 class RebootHandler(private val context: Context) {
 
-    private val TAG     = "RebootHandler"
+    private val TAG = "RebootHandler"
     private val checker = DeviceOwnerChecker(context)
 
     fun execute(): ExecutionResult {
         if (!checker.isDeviceOwner())
-            return ExecutionResult.failure("Device Owner requerido para REBOOT_DEVICE.")
+                return ExecutionResult.failure("Device Owner requerido para REBOOT_DEVICE.")
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
-            return ExecutionResult.failure("REBOOT_DEVICE requiere Android 7.0+ (API 24).")
+                return ExecutionResult.failure("REBOOT_DEVICE requiere Android 7.0+ (API 24).")
 
         return try {
             checker.getDpm().reboot(checker.adminComponent)
             MdmLog.i(TAG, "Reboot solicitado exitosamente.")
-            ExecutionResult.success("""{"rebootRequested":true,"timestamp":${System.currentTimeMillis()}}""")
+            ExecutionResult.success(
+                    """{"rebootRequested":true,"timestamp":${System.currentTimeMillis()}}"""
+            )
         } catch (e: SecurityException) {
             MdmLog.e(TAG, "SecurityException en reboot: ${e.message}")
             ExecutionResult.failure("Permiso denegado: ${e.message}")

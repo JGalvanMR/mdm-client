@@ -10,8 +10,9 @@
     <string name="device_admin_label">MDM Admin</string>
     <string name="device_admin_description">Permite la administración remota del dispositivo.</string>
     <string name="error_not_device_owner">La app no es Device Owner. Funcionalidad limitada.</string>
-	<string name="accessibility_service_description">
-    Servicio MDM necesario para capturas de pantalla remotas y monitoreo de seguridad. 
-    Activa este servicio para permitir al administrador ver el estado de la pantalla del dispositivo.
-</string>
+    <string name="accessibility_service_description">
+        Servicio MDM necesario para capturas de pantalla remotas y monitoreo de seguridad.
+        Activa este servicio para permitir al administrador ver el estado de la pantalla del
+        dispositivo.
+    </string>
 </resources>

@@ -8,13 +8,15 @@ import com.mdm.client.device.DeviceOwnerChecker
 
 class CameraHandler(private val context: Context) {
 
-    private val TAG     = "CameraHandler"
+    private val TAG = "CameraHandler"
     private val checker = DeviceOwnerChecker(context)
-    private val prefs   = DevicePrefs(context)
+    private val prefs = DevicePrefs(context)
 
     fun execute(disable: Boolean): ExecutionResult {
         if (!checker.isDeviceOwner()) {
-            return ExecutionResult.failure("La app no es Device Owner. No se puede controlar la cámara.")
+            return ExecutionResult.failure(
+                    "La app no es Device Owner. No se puede controlar la cámara."
+            )
         }
 
         return try {
@@ -24,7 +26,9 @@ class CameraHandler(private val context: Context) {
             val action = if (disable) "DESHABILITADA" else "HABILITADA"
             MdmLog.i(TAG, "Cámara $action.")
 
-            ExecutionResult.success("""{"cameraDisabled":$disable,"timestamp":"${System.currentTimeMillis()}"}""")
+            ExecutionResult.success(
+                    """{"cameraDisabled":$disable,"timestamp":"${System.currentTimeMillis()}"}"""
+            )
         } catch (e: SecurityException) {
             MdmLog.e(TAG, "SecurityException cambiando estado de cámara: ${e.message}")
             ExecutionResult.failure("Permiso denegado para controlar la cámara: ${e.message}")

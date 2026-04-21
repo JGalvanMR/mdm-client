@@ -1,7 +1,5 @@
 package com.mdm.client
 
-import android.app.NotificationManager
-import android.app.admin.DevicePolicyManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -9,8 +7,6 @@ import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -26,9 +22,9 @@ class MainActivity : AppCompatActivity() {
 
     private val TAG = "MainActivity"
 
-    private lateinit var binding:  ActivityMainBinding
-    private lateinit var prefs:    DevicePrefs
-    private lateinit var checker:  DeviceOwnerChecker
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var prefs: DevicePrefs
+    private lateinit var checker: DeviceOwnerChecker
 
     // Buffer de log para mostrar en pantalla
     private val logBuffer = ArrayDeque<String>(Constants.MAX_LOG_LINES)
@@ -36,41 +32,41 @@ class MainActivity : AppCompatActivity() {
     // ════════════════════════════════════════════════════════════════════════════
     // BROADCAST RECEIVER — recibe eventos del servicio y comandos de kiosk
     // ════════════════════════════════════════════════════════════════════════════
-    private val eventReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            when (intent.action) {
+    private val eventReceiver =
+            object : BroadcastReceiver() {
+                override fun onReceive(context: Context, intent: Intent) {
+                    when (intent.action) {
+                        Constants.ACTION_START_KIOSK -> {
+                            MdmLog.i(TAG, "Activando kiosk mode...")
+                            startLockTask()
+                            appendLog("✓ Kiosk mode ACTIVADO")
+                            updateMdmStatusUI()
+                        }
+                        Constants.ACTION_STOP_KIOSK -> {
+                            MdmLog.i(TAG, "Desactivando kiosk mode...")
+                            try {
+                                stopLockTask()
+                            } catch (e: Exception) {
+                                MdmLog.e(TAG, "Error deteniendo lockTask: ${e.message}")
+                            }
+                            appendLog("✓ Kiosk mode DESACTIVADO")
+                            updateMdmStatusUI()
+                        }
+                        Constants.ACTION_UPDATE_UI -> {
+                            val log = intent.getStringExtra(Constants.EXTRA_LOG_MESSAGE)
+                            val pollTs = intent.getLongExtra(Constants.EXTRA_LAST_POLL, 0L)
 
-                Constants.ACTION_START_KIOSK -> {
-                    MdmLog.i(TAG, "Activando kiosk mode...")
-                    startLockTask()
-                    appendLog("✓ Kiosk mode ACTIVADO")
-                    updateMdmStatusUI()
-                }
-
-                Constants.ACTION_STOP_KIOSK -> {
-                    MdmLog.i(TAG, "Desactivando kiosk mode...")
-                    try { stopLockTask() } catch (e: Exception) {
-                        MdmLog.e(TAG, "Error deteniendo lockTask: ${e.message}")
+                            log?.let { appendLog(it) }
+                            if (pollTs > 0) {
+                                binding.tvLastPoll.text = "Último poll: ${pollTs.toReadableDate()}"
+                            }
+                            binding.tvCommandsExecuted.text =
+                                    "Comandos ejecutados: ${prefs.commandsExecuted}"
+                            updateStatusDot(online = true)
+                        }
                     }
-                    appendLog("✓ Kiosk mode DESACTIVADO")
-                    updateMdmStatusUI()
-                }
-
-                Constants.ACTION_UPDATE_UI -> {
-                    val log    = intent.getStringExtra(Constants.EXTRA_LOG_MESSAGE)
-                    val pollTs = intent.getLongExtra(Constants.EXTRA_LAST_POLL, 0L)
-
-                    log?.let { appendLog(it) }
-                    if (pollTs > 0) {
-                        binding.tvLastPoll.text = "Último poll: ${pollTs.toReadableDate()}"
-                    }
-                    binding.tvCommandsExecuted.text =
-                        "Comandos ejecutados: ${prefs.commandsExecuted}"
-                    updateStatusDot(online = true)
                 }
             }
-        }
-    }
 
     // ════════════════════════════════════════════════════════════════════════════
     // LIFECYCLE
@@ -86,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        prefs   = DevicePrefs(this)
+        prefs = DevicePrefs(this)
         checker = DeviceOwnerChecker(this)
 
         setupUI()
@@ -99,7 +95,9 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         // Restaurar kiosk si estaba activo (ej: después de que el servicio lo activó)
         if (prefs.kioskModeEnabled && checker.isDeviceOwner()) {
-            try { startLockTask() } catch (e: Exception) {
+            try {
+                startLockTask()
+            } catch (e: Exception) {
                 MdmLog.w(TAG, "No se pudo restaurar kiosk mode: ${e.message}")
             }
         }
@@ -129,9 +127,10 @@ class MainActivity : AppCompatActivity() {
         binding.tvVersion.text = "v${BuildConfig.VERSION_NAME}"
 
         // Info del dispositivo
-        binding.tvDeviceId.text     = "ID: ${prefs.getOrCreateDeviceId(this).take(16)}…"
-        binding.tvDeviceModel.text  = "Modelo: ${Build.MANUFACTURER} ${Build.MODEL}"
-        binding.tvAndroidVersion.text = "Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})"
+        binding.tvDeviceId.text = "ID: ${prefs.getOrCreateDeviceId(this).take(16)}…"
+        binding.tvDeviceModel.text = "Modelo: ${Build.MANUFACTURER} ${Build.MODEL}"
+        binding.tvAndroidVersion.text =
+                "Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})"
 
         // Scroll del log al final automáticamente
         binding.tvLog.setOnScrollChangeListener { _, _, scrollY, _, _ ->
@@ -157,14 +156,14 @@ class MainActivity : AppCompatActivity() {
         binding.tvRegistered.apply {
             val registered = prefs.isRegistered
             text = if (registered) "Registro: ✓ Completado" else "Registro: ⏳ Pendiente"
-            setTextColor(if (registered) Color.parseColor("#00D897") else Color.parseColor("#FFD93D"))
+            setTextColor(
+                    if (registered) Color.parseColor("#00D897") else Color.parseColor("#FFD93D")
+            )
         }
 
         val lastPoll = prefs.lastPollTimestamp
-        binding.tvLastPoll.text = if (lastPoll > 0)
-            "Último poll: ${lastPoll.toReadableDate()}"
-        else
-            "Último poll: —"
+        binding.tvLastPoll.text =
+                if (lastPoll > 0) "Último poll: ${lastPoll.toReadableDate()}" else "Último poll: —"
 
         binding.tvCommandsExecuted.text = "Comandos ejecutados: ${prefs.commandsExecuted}"
 
@@ -182,16 +181,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateServiceStatusUI() {
-        binding.tvServiceStatus.text  = "Servicio activo (polling ${BuildConfig.POLL_INTERVAL_MS / 1000}s)"
+        binding.tvServiceStatus.text =
+                "Servicio activo (polling ${BuildConfig.POLL_INTERVAL_MS / 1000}s)"
         updateStatusDot(online = true)
     }
 
     private fun updateStatusDot(online: Boolean) {
         binding.viewStatusDot.background?.setTint(
-            if (online) Color.parseColor("#00D897") else Color.parseColor("#FF4757")
+                if (online) Color.parseColor("#00D897") else Color.parseColor("#FF4757")
         )
         binding.tvServiceStatus.setTextColor(
-            if (online) Color.parseColor("#EAEAEA") else Color.parseColor("#FF4757")
+                if (online) Color.parseColor("#EAEAEA") else Color.parseColor("#FF4757")
         )
     }
 
@@ -200,16 +200,15 @@ class MainActivity : AppCompatActivity() {
     // ════════════════════════════════════════════════════════════════════════════
 
     private fun appendLog(message: String) {
-        val timestamp = java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.getDefault())
-            .format(java.util.Date())
+        val timestamp =
+                java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.getDefault())
+                        .format(java.util.Date())
         val entry = "[$timestamp] $message"
 
         logBuffer.addLast(entry)
         if (logBuffer.size > Constants.MAX_LOG_LINES) logBuffer.removeFirst()
 
-        runOnUiThread {
-            binding.tvLog.text = logBuffer.joinToString("\n")
-        }
+        runOnUiThread { binding.tvLog.text = logBuffer.joinToString("\n") }
     }
 
     // ════════════════════════════════════════════════════════════════════════════
@@ -228,11 +227,12 @@ class MainActivity : AppCompatActivity() {
     // ════════════════════════════════════════════════════════════════════════════
 
     private fun registerEventReceiver() {
-        val filter = IntentFilter().apply {
-            addAction(Constants.ACTION_START_KIOSK)
-            addAction(Constants.ACTION_STOP_KIOSK)
-            addAction(Constants.ACTION_UPDATE_UI)
-        }
+        val filter =
+                IntentFilter().apply {
+                    addAction(Constants.ACTION_START_KIOSK)
+                    addAction(Constants.ACTION_STOP_KIOSK)
+                    addAction(Constants.ACTION_UPDATE_UI)
+                }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerReceiver(eventReceiver, filter, RECEIVER_NOT_EXPORTED)
         } else {
@@ -246,12 +246,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
-                != android.content.pm.PackageManager.PERMISSION_GRANTED
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) !=
+                            android.content.pm.PackageManager.PERMISSION_GRANTED
             ) {
-                requestPermissions(
-                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 100
-                )
+                requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 100)
             }
         }
     }

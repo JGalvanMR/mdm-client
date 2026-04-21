@@ -17,33 +17,50 @@ class NetworkMonitor(context: Context) {
     val isConnected: Boolean
         get() {
             val network = cm.activeNetwork ?: return false
-            val caps    = cm.getNetworkCapabilities(network) ?: return false
+            val caps = cm.getNetworkCapabilities(network) ?: return false
             return caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                   caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                    caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
         }
 
     /** Flow que emite true/false cada vez que cambia la conectividad. */
-    val connectivityFlow: Flow<Boolean> = callbackFlow {
-        val callback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network)       { trySend(true) }
-            override fun onLost(network: Network)            { trySend(false) }
-            override fun onUnavailable()                     { trySend(false) }
-            override fun onCapabilitiesChanged(
-                network: Network, caps: NetworkCapabilities
-            ) {
-                val valid = caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                            caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-                trySend(valid)
-            }
-        }
+    val connectivityFlow: Flow<Boolean> =
+            callbackFlow {
+                        val callback =
+                                object : ConnectivityManager.NetworkCallback() {
+                                    override fun onAvailable(network: Network) {
+                                        trySend(true)
+                                    }
+                                    override fun onLost(network: Network) {
+                                        trySend(false)
+                                    }
+                                    override fun onUnavailable() {
+                                        trySend(false)
+                                    }
+                                    override fun onCapabilitiesChanged(
+                                            network: Network,
+                                            caps: NetworkCapabilities
+                                    ) {
+                                        val valid =
+                                                caps.hasCapability(
+                                                        NetworkCapabilities.NET_CAPABILITY_INTERNET
+                                                ) &&
+                                                        caps.hasCapability(
+                                                                NetworkCapabilities
+                                                                        .NET_CAPABILITY_VALIDATED
+                                                        )
+                                        trySend(valid)
+                                    }
+                                }
 
-        val request = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .build()
+                        val request =
+                                NetworkRequest.Builder()
+                                        .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                                        .build()
 
-        cm.registerNetworkCallback(request, callback)
-        trySend(isConnected) // Estado inicial
+                        cm.registerNetworkCallback(request, callback)
+                        trySend(isConnected) // Estado inicial
 
-        awaitClose { cm.unregisterNetworkCallback(callback) }
-    }.distinctUntilChanged()
+                        awaitClose { cm.unregisterNetworkCallback(callback) }
+                    }
+                    .distinctUntilChanged()
 }

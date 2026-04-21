@@ -14,7 +14,8 @@ class ScreenCapturePermissionActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        mediaProjectionManager =
+                getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
         startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(), REQUEST_CODE)
     }
 
@@ -25,8 +26,10 @@ class ScreenCapturePermissionActivity : Activity() {
 
             // Obtener los parámetros guardados en el handler
             val handler = ScreenStreamHandler(applicationContext)
-            handler.onPermissionGranted(projection, null) // Los parámetros ya están en pendingParams
-
+            handler.onPermissionGranted(
+                    projection,
+                    null
+            ) // Los parámetros ya están en pendingParams
         } else {
             Log.w("ScreenCapture", "Permiso de captura denegado")
         }

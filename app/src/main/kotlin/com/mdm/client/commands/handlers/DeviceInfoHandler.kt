@@ -8,9 +8,9 @@ import com.mdm.client.device.DeviceInfoCollector
 
 class DeviceInfoHandler(private val context: Context) {
 
-    private val TAG       = "DeviceInfoHandler"
+    private val TAG = "DeviceInfoHandler"
     private val collector = DeviceInfoCollector(context)
-    private val gson      = Gson()
+    private val gson = Gson()
 
     fun execute(): ExecutionResult {
         return try {

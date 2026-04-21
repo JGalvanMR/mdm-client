@@ -18,7 +18,7 @@
         android:textColor="@color/text_primary"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp" />
 
     <TextView
         android:id="@+id/tvVersion"
@@ -28,7 +28,7 @@
         android:textSize="12sp"
         android:textColor="@color/text_secondary"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Card: Estado del servicio -->
     <androidx.cardview.widget.CardView
@@ -55,7 +55,7 @@
                 android:textColor="@color/text_secondary"
                 android:letterSpacing="0.1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                     android:id="@+id/viewStatusDot"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
-                    android:background="@drawable/ic_mdm_status"/>
+                    android:background="@drawable/ic_mdm_status" />
 
                 <TextView
                     android:id="@+id/tvServiceStatus"
@@ -77,7 +77,7 @@
                     android:text="Iniciando..."
                     android:textColor="@color/text_primary"
                     android:textSize="15sp"
-                    android:layout_marginStart="8dp"/>
+                    android:layout_marginStart="8dp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -107,7 +107,7 @@
                 android:textColor="@color/text_secondary"
                 android:letterSpacing="0.1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tvDeviceId"
@@ -117,7 +117,7 @@
                 android:textColor="@color/text_primary"
                 android:textSize="13sp"
                 android:fontFamily="monospace"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp" />
 
             <TextView
                 android:id="@+id/tvDeviceModel"
@@ -126,7 +126,7 @@
                 android:text="Modelo: —"
                 android:textColor="@color/text_secondary"
                 android:textSize="13sp"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp" />
 
             <TextView
                 android:id="@+id/tvAndroidVersion"
@@ -135,7 +135,7 @@
                 android:text="Android: —"
                 android:textColor="@color/text_secondary"
                 android:textSize="13sp"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp" />
 
             <TextView
                 android:id="@+id/tvDeviceOwnerStatus"
@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:text="Device Owner: verificando..."
                 android:textSize="13sp"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -172,7 +172,7 @@
                 android:textColor="@color/text_secondary"
                 android:letterSpacing="0.1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tvRegistered"
@@ -181,7 +181,7 @@
                 android:text="Registro: —"
                 android:textColor="@color/text_primary"
                 android:textSize="13sp"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp" />
 
             <TextView
                 android:id="@+id/tvLastPoll"
@@ -190,7 +190,7 @@
                 android:text="Último poll: —"
                 android:textColor="@color/text_secondary"
                 android:textSize="13sp"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp" />
 
             <TextView
                 android:id="@+id/tvCommandsExecuted"
@@ -199,7 +199,7 @@
                 android:text="Comandos ejecutados: 0"
                 android:textColor="@color/text_secondary"
                 android:textSize="13sp"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp" />
 
             <TextView
                 android:id="@+id/tvKioskStatus"
@@ -208,7 +208,7 @@
                 android:text="Kiosk: Desactivado"
                 android:textColor="@color/text_secondary"
                 android:textSize="13sp"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp" />
 
             <TextView
                 android:id="@+id/tvCameraStatus"
@@ -217,7 +217,7 @@
                 android:text="Cámara: Habilitada"
                 android:textColor="@color/text_secondary"
                 android:textSize="13sp"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -233,19 +233,19 @@
         android:background="@color/log_bg"
         android:padding="12dp"
         android:gravity="bottom"
-        android:scrollbars="vertical"
+        android:scrollbars="verttical"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintTop_toBottomOf="@id/cardMdmStatus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-		
-		<Button
-    android:id="@+id/btnGrantPermission"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Conceder permiso de captura"
-    android:layout_marginTop="16dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnGrantPermission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Conceder permiso de captura"
+        android:layout_marginTop="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

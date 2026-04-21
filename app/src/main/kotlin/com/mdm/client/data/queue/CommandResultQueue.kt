@@ -9,20 +9,20 @@ import com.mdm.client.core.MdmLog
 import com.mdm.client.data.models.CommandResultRequest
 
 data class QueuedResult(
-    val request:    CommandResultRequest,
-    val retryCount: Int  = 0,
-    val enqueuedAt: Long = System.currentTimeMillis()
+        val request: CommandResultRequest,
+        val retryCount: Int = 0,
+        val enqueuedAt: Long = System.currentTimeMillis()
 )
 
 class CommandResultQueue(context: Context) {
 
-    private val TAG       = "CommandResultQueue"
-    private val KEY       = "pending_results"
+    private val TAG = "CommandResultQueue"
+    private val KEY = "pending_results"
     private val MAX_RETRY = 5
-    private val MAX_AGE_MS = 24L * 60 * 60 * 1000   // 24 horas
-    private val gson      = Gson()
+    private val MAX_AGE_MS = 24L * 60 * 60 * 1000 // 24 horas
+    private val gson = Gson()
     private val prefs: SharedPreferences =
-        context.getSharedPreferences("mdm_result_queue", Context.MODE_PRIVATE)
+            context.getSharedPreferences("mdm_result_queue", Context.MODE_PRIVATE)
     private val listType = object : TypeToken<MutableList<QueuedResult>>() {}.type
 
     fun enqueue(result: CommandResultRequest, currentRetry: Int = 0) {
@@ -34,12 +34,15 @@ class CommandResultQueue(context: Context) {
         list.removeAll { it.request.commandId == result.commandId }
         list.add(QueuedResult(request = result, retryCount = currentRetry))
         save(list)
-        MdmLog.i(TAG, "Encolado commandId=${result.commandId} retry=$currentRetry. Cola: ${list.size}")
+        MdmLog.i(
+                TAG,
+                "Encolado commandId=${result.commandId} retry=$currentRetry. Cola: ${list.size}"
+        )
     }
 
     fun dequeueAll(): List<QueuedResult> {
-        val now   = System.currentTimeMillis()
-        val all   = getAll()
+        val now = System.currentTimeMillis()
+        val all = getAll()
         val valid = all.filter { it.retryCount < MAX_RETRY && (now - it.enqueuedAt) < MAX_AGE_MS }
         val dropped = all.size - valid.size
         if (dropped > 0) {

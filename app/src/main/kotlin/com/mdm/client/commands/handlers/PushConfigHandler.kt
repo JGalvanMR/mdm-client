@@ -8,15 +8,15 @@ import com.mdm.client.core.MdmLog
 import com.mdm.client.data.prefs.DevicePrefs
 
 class PushConfigHandler(private val context: Context) {
-    private val TAG  = "PushConfigHandler"
+    private val TAG = "PushConfigHandler"
     private val gson = Gson()
     private val prefs = DevicePrefs(context)
 
     fun execute(parametersJson: String?): ExecutionResult {
         return try {
-            val params = parametersJson?.let {
-                JsonParser.parseString(it).asJsonObject
-            } ?: return ExecutionResult.failure("Falta parámetro de configuración.")
+            val params =
+                    parametersJson?.let { JsonParser.parseString(it).asJsonObject }
+                            ?: return ExecutionResult.failure("Falta parámetro de configuración.")
 
             val applied = mutableListOf<String>()
 
@@ -30,10 +30,9 @@ class PushConfigHandler(private val context: Context) {
             }
 
             MdmLog.i(TAG, "Config aplicada: $applied")
-            ExecutionResult.success(gson.toJson(mapOf(
-                "applied" to applied,
-                "count"   to applied.size
-            )))
+            ExecutionResult.success(
+                    gson.toJson(mapOf("applied" to applied, "count" to applied.size))
+            )
         } catch (e: Exception) {
             MdmLog.e(TAG, "Error: ${e.message}", e)
             ExecutionResult.failure("Error aplicando config: ${e.message}")

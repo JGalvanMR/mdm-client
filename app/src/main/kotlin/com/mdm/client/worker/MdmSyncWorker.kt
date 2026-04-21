@@ -8,16 +8,13 @@ import com.mdm.client.core.MdmLog
 import com.mdm.client.service.MdmPollingService
 
 /**
- * WorkManager como mecanismo de respaldo.
- * Si el ForegroundService muere y Android no lo reinicia inmediatamente,
- * WorkManager garantiza que el servicio se vuelva a levantar.
+ * WorkManager como mecanismo de respaldo. Si el ForegroundService muere y Android no lo reinicia
+ * inmediatamente, WorkManager garantiza que el servicio se vuelva a levantar.
  *
  * Programado como trabajo periódico de 15 minutos (mínimo de WorkManager).
  */
-class MdmSyncWorker(
-    private val context: Context,
-    params: WorkerParameters
-) : CoroutineWorker(context, params) {
+class MdmSyncWorker(private val context: Context, params: WorkerParameters) :
+        CoroutineWorker(context, params) {
 
     private val TAG = "MdmSyncWorker"
 

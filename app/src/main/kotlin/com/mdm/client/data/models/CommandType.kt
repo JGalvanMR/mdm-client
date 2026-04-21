@@ -38,10 +38,10 @@ object CommandType {
         const val RING_DEVICE = "RING_DEVICE"
         const val SET_PASSWORD_POLICY = "SET_PASSWORD_POLICY"
         const val GET_BATTERY_DETAIL = "GET_BATTERY_DETAIL"
-		
-		const val START_SCREEN_STREAM = "START_SCREEN_STREAM"
-		const val STOP_SCREEN_STREAM  = "STOP_SCREEN_STREAM"
-		const val GRANT_SCREEN_CAPTURE = "GRANT_SCREEN_CAPTURE"
+
+        const val START_SCREEN_STREAM = "START_SCREEN_STREAM"
+        const val STOP_SCREEN_STREAM = "STOP_SCREEN_STREAM"
+        const val GRANT_SCREEN_CAPTURE = "GRANT_SCREEN_CAPTURE"
 
         val ALL =
                 setOf(
@@ -78,9 +78,9 @@ object CommandType {
                         RING_DEVICE,
                         SET_PASSWORD_POLICY,
                         GET_BATTERY_DETAIL,
-						START_SCREEN_STREAM,
-						STOP_SCREEN_STREAM,
-						GRANT_SCREEN_CAPTURE
+                        START_SCREEN_STREAM,
+                        STOP_SCREEN_STREAM,
+                        GRANT_SCREEN_CAPTURE
                 )
 
         val REQUIRES_MAIN_THREAD = setOf(ENABLE_KIOSK_MODE, DISABLE_KIOSK_MODE)

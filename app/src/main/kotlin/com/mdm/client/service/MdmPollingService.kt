@@ -4,14 +4,13 @@ import android.app.*
 import android.content.*
 import android.os.*
 import androidx.core.app.NotificationCompat
-import com.mdm.client.core.*
-import com.mdm.client.data.network.*
-import kotlinx.coroutines.*
-import com.mdm.client.data.prefs.DevicePrefs
-import com.mdm.client.data.network.ApiClient
-import com.mdm.client.service.RegistrationManager
 import com.mdm.client.commands.CommandExecutor
 import com.mdm.client.commands.handlers.ScreenStreamHandler
+import com.mdm.client.core.*
+import com.mdm.client.data.network.*
+import com.mdm.client.data.network.ApiClient
+import com.mdm.client.data.prefs.DevicePrefs
+import kotlinx.coroutines.*
 
 class MdmPollingService : Service() {
 
@@ -33,10 +32,10 @@ class MdmPollingService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        prefs     = DevicePrefs(this)
+        prefs = DevicePrefs(this)
         apiClient = ApiClient()
         registrar = RegistrationManager(this, apiClient, prefs)
-        executor  = CommandExecutor(this)
+        executor = CommandExecutor(this)
 
         // CRÍTICO: el canal DEBE existir antes de llamar a startForeground().
         // En Android 8+ (API 26) startForeground() valida que el channelId
@@ -62,7 +61,7 @@ class MdmPollingService : Service() {
     override fun onDestroy() {
         isRunning = false
         scope.cancel()
-		ScreenStreamHandler.WebSocketHolder.instance = null
+        ScreenStreamHandler.WebSocketHolder.instance = null
         if (::wsClient.isInitialized) wsClient.disconnect()
         super.onDestroy()
     }
@@ -77,21 +76,25 @@ class MdmPollingService : Service() {
      * Reglas:
      * - Debe llamarse ANTES de startForeground() (llamado en onCreate).
      * - Es idempotente: el sistema ignora la llamada si el canal ya existe.
-     * - IMPORTANCE_LOW → sin sonido ni vibración para una notificación permanente
-     *   de servicio; no molesta al usuario pero cumple el requisito del sistema.
+     * - IMPORTANCE_LOW → sin sonido ni vibración para una notificación permanente de servicio; no
+     * molesta al usuario pero cumple el requisito del sistema.
      * - setShowBadge(false) → no muestra badge en el ícono de la app.
      */
     private fun createNotificationChannel() {
-        val channel = NotificationChannel(
-            Constants.NOTIF_CHANNEL_SERVICE,          // "mdm_service_channel"
-            getString(com.mdm.client.R.string.notif_channel_name),    // "MDM Service"
-            NotificationManager.IMPORTANCE_LOW
-        ).apply {
-            description = getString(com.mdm.client.R.string.notif_channel_desc)
-            setShowBadge(false)
-            enableVibration(false)
-            enableLights(false)
-        }
+        val channel =
+                NotificationChannel(
+                                Constants.NOTIF_CHANNEL_SERVICE, // "mdm_service_channel"
+                                getString(
+                                        com.mdm.client.R.string.notif_channel_name
+                                ), // "MDM Service"
+                                NotificationManager.IMPORTANCE_LOW
+                        )
+                        .apply {
+                            description = getString(com.mdm.client.R.string.notif_channel_desc)
+                            setShowBadge(false)
+                            enableVibration(false)
+                            enableLights(false)
+                        }
 
         val nm = getSystemService(NotificationManager::class.java)
         nm.createNotificationChannel(channel)
@@ -104,20 +107,20 @@ class MdmPollingService : Service() {
     /**
      * Construye la notificación del foreground service.
      *
-     * channelId usa Constants.NOTIF_CHANNEL_SERVICE ("mdm_service_channel"),
-     * que es el mismo canal registrado en createNotificationChannel().
-     * Antes usaba el literal "mdm" que nunca fue registrado → causa del crash.
+     * channelId usa Constants.NOTIF_CHANNEL_SERVICE ("mdm_service_channel"), que es el mismo canal
+     * registrado en createNotificationChannel(). Antes usaba el literal "mdm" que nunca fue
+     * registrado → causa del crash.
      */
     private fun buildNotification(text: String, isError: Boolean = false): Notification {
         return NotificationCompat.Builder(this, Constants.NOTIF_CHANNEL_SERVICE)
-            .setContentTitle(getString(com.mdm.client.R.string.notif_title))
-            .setContentText(text)
-            .setSmallIcon(android.R.drawable.ic_menu_manage)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setOngoing(true)           // No se puede descartar deslizando
-            .setOnlyAlertOnce(true)     // No re-suena en cada update
-            .setCategory(NotificationCompat.CATEGORY_SERVICE)
-            .build()
+                .setContentTitle(getString(com.mdm.client.R.string.notif_title))
+                .setContentText(text)
+                .setSmallIcon(android.R.drawable.ic_menu_manage)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setOngoing(true) // No se puede descartar deslizando
+                .setOnlyAlertOnce(true) // No re-suena en cada update
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .build()
     }
 
     private fun updateNotification(text: String, isError: Boolean = false) {
@@ -147,43 +150,51 @@ class MdmPollingService : Service() {
     // ════════════════════════════════════════════════════════════════════════
 
     private fun connectWS() {
-        val token = prefs.deviceToken ?: run {
-            updateNotification("Sin token — registrando...", isError = true)
-            scope.launch {
-                val ok = registrar.ensureRegistered()
-                if (ok) connectWS()
-            }
-            return
-        }
+        val token =
+                prefs.deviceToken
+                        ?: run {
+                            updateNotification("Sin token — registrando...", isError = true)
+                            scope.launch {
+                                val ok = registrar.ensureRegistered()
+                                if (ok) connectWS()
+                            }
+                            return
+                        }
 
-        wsClient = MdmWebSocketClient(token).apply {
-            connect(object : WsEventListener {
+        wsClient =
+                MdmWebSocketClient(token).apply {
+                    connect(
+                            object : WsEventListener {
 
-                override fun onConnected() {
-                    isWsMode = true
-                    updateNotification("Tiempo real activo")
-                    startHeartbeat()
-					
-					ScreenStreamHandler.WebSocketHolder.instance = this@apply
+                                override fun onConnected() {
+                                    isWsMode = true
+                                    updateNotification("Tiempo real activo")
+                                    startHeartbeat()
+
+                                    ScreenStreamHandler.WebSocketHolder.instance = this@apply
+                                }
+
+                                override fun onDisconnected(reason: String) {
+                                    isWsMode = false
+                                    updateNotification(
+                                            "Reconectando (fallback polling)...",
+                                            isError = true
+                                    )
+                                    startPolling()
+
+                                    ScreenStreamHandler.WebSocketHolder.instance = null
+                                }
+
+                                override fun onCommand(msg: WsCommandMessage) {
+                                    scope.launch { executeCommand(msg) }
+                                }
+
+                                override fun onError(error: String) {
+                                    updateNotification("Error WS: $error", isError = true)
+                                }
+                            }
+                    )
                 }
-
-                override fun onDisconnected(reason: String) {
-                    isWsMode = false
-                    updateNotification("Reconectando (fallback polling)...", isError = true)
-                    startPolling()
-					
-					ScreenStreamHandler.WebSocketHolder.instance = null
-                }
-
-                override fun onCommand(msg: WsCommandMessage) {
-                    scope.launch { executeCommand(msg) }
-                }
-
-                override fun onError(error: String) {
-                    updateNotification("Error WS: $error", isError = true)
-                }
-            })
-        }
     }
 
     // ════════════════════════════════════════════════════════════════════════
@@ -192,12 +203,7 @@ class MdmPollingService : Service() {
 
     private suspend fun executeCommand(cmd: WsCommandMessage) {
         val result = executor.execute(cmd.commandType, cmd.parameters)
-        wsClient.sendResult(
-            cmd.commandId,
-            result.success,
-            result.resultJson,
-            result.errorMessage
-        )
+        wsClient.sendResult(cmd.commandId, result.success, result.resultJson, result.errorMessage)
     }
 
     // ════════════════════════════════════════════════════════════════════════
@@ -227,11 +233,11 @@ class MdmPollingService : Service() {
                 val telemetry = collector.collect()
 
                 wsClient.sendStatus(
-                    battery  = telemetry.batteryLevel,
-                    storage  = telemetry.storageAvailableMB,
-                    kiosk    = telemetry.kioskModeEnabled,
-                    cam      = telemetry.cameraDisabled,
-                    ip       = telemetry.ipAddress
+                        battery = telemetry.batteryLevel,
+                        storage = telemetry.storageAvailableMB,
+                        kiosk = telemetry.kioskModeEnabled,
+                        cam = telemetry.cameraDisabled,
+                        ip = telemetry.ipAddress
                 )
 
                 delay(60_000)
