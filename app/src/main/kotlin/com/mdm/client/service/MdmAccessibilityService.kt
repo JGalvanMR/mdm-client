@@ -7,19 +7,17 @@ import android.util.Base64
 import android.view.Display
 import android.view.accessibility.AccessibilityEvent
 import com.mdm.client.core.MdmLog
-import com.mdm.client.commands.handlers.InputInjectionHandler
-import org.json.JSONObject
 import java.io.ByteArrayOutputStream
-import java.util.concurrent.Executors
+import android.util.Log
+import com.mdm.client.commands.handlers.InputInjectionHandler
 
 class MdmAccessibilityService : AccessibilityService() {
 
     private val TAG = "MdmAccessibilityService"
-    private val backgroundExecutor = Executors.newSingleThreadExecutor()
 
     companion object {
         @Volatile private var instance: MdmAccessibilityService? = null
-        @Volatile private var isServiceReady = false
+        private var isServiceReady = false
 
         fun getInstance(): MdmAccessibilityService? = instance
         fun isReady(): Boolean = isServiceReady && instance != null
@@ -29,15 +27,14 @@ class MdmAccessibilityService : AccessibilityService() {
         super.onServiceConnected()
         instance = this
         isServiceReady = true
-        InputInjectionHandler.instance = this
+		InputInjectionHandler.instance = this
         MdmLog.i(TAG, "Servicio de accesibilidad conectado.")
     }
 
     override fun onDestroy() {
         isServiceReady = false
         instance = null
-        InputInjectionHandler.instance = null
-        backgroundExecutor.shutdown()
+		InputInjectionHandler.instance = null
         super.onDestroy()
     }
 
@@ -45,45 +42,46 @@ class MdmAccessibilityService : AccessibilityService() {
     override fun onInterrupt() {}
 
     /**
-     * Toma screenshot y devuelve Base64.
-     * @param displayId -1 para la pantalla por defecto
+     * Toma screenshot y devuelve Base64 directamente
+     * @param displayId -1 para pantalla por defecto, o Display.DEFAULT_DISPLAY (0)
      * @param callback (success: Boolean, jsonResult: String)
      */
     fun takeScreenshot(displayId: Int, callback: (Boolean, String) -> Unit) {
-        if (!isReady) {
-            callback(false, """{"error":"Servicio no disponible"}""")
-            return
-        }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) { // API 30+
             callback(false, """{"error":"Requiere Android 11+ (API 30)"}""")
             return
         }
 
+        // Usar Display.DEFAULT_DISPLAY (valor 0) si se pasa -1
         val targetDisplayId = if (displayId == -1) Display.DEFAULT_DISPLAY else displayId
 
         takeScreenshot(
-            targetDisplayId,
-            backgroundExecutor,            // ← se procesa en background
-            object : TakeScreenshotCallback {
-                override fun onSuccess(result: ScreenshotResult) {
-                    try {
-                        val bitmap = Bitmap.wrapHardwareBuffer(
-                            result.hardwareBuffer,
-                            result.colorSpace
-                        )?.copy(Bitmap.Config.ARGB_8888, false)
-
-                        result.hardwareBuffer.close()
-
-                        if (bitmap == null) {
-                            callback(false, """{"error":"No se pudo procesar el bitmap"}""")
-                            return
-                        }
-
-                        val outputStream = ByteArrayOutputStream()
+                targetDisplayId,
+                mainExecutor,
+                object : TakeScreenshotCallback {
+                    override fun onSuccess(result: ScreenshotResult) {
                         try {
-                            val compressed = bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream)
+                            val bitmap =
+                                    Bitmap.wrapHardwareBuffer(
+                                                    result.hardwareBuffer,
+                                                    result.colorSpace
+                                            )
+                                            ?.copy(Bitmap.Config.ARGB_8888, false)
+
+                            result.hardwareBuffer.close()
+
+                            if (bitmap == null) {
+                                callback(false, """{"error":"No se pudo procesar el bitmap"}""")
+                                return
+                            }
+
+                            // Comprimir y convertir a Base64
+                            val outputStream = ByteArrayOutputStream()
+                            val compressed =
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream)
+
                             if (!compressed) {
+                                bitmap.recycle()
                                 callback(false, """{"error":"Error comprimiendo imagen"}""")
                                 return
                             }
@@ -91,31 +89,33 @@ class MdmAccessibilityService : AccessibilityService() {
                             val byteArray = outputStream.toByteArray()
                             val base64 = Base64.encodeToString(byteArray, Base64.NO_WRAP)
 
-                            val json = JSONObject().apply {
-                                put("screenshot", base64)
-                                put("sizeKB", byteArray.size / 1024)
-                                put("format", "jpeg")
-                            }
-                            callback(true, json.toString())
-                        } finally {
+                            // Liberar memoria
                             bitmap.recycle()
                             outputStream.close()
-                        }
-                    } catch (e: Exception) {
-                        MdmLog.e(TAG, "Error procesando screenshot: ${e.message}")
-                        callback(false, """{"error":"${e.message}"}""")
-                    }
-                }
 
-                override fun onFailure(errorCode: Int) {
-                    val errorMsg = when (errorCode) {
-                        TakeScreenshotCallback.ERROR_TAKE_SCREENSHOT_NO_PERMISSIONS -> "Sin permisos de screenshot"
-                        TakeScreenshotCallback.ERROR_TAKE_SCREENSHOT_SECURITY_POLICY -> "Bloqueado por política de seguridad"
-                        else -> "Error código: $errorCode"
+                            // Respuesta con metadata
+                            val sizeKB = byteArray.size / 1024
+                            val jsonResult =
+                                    """{"screenshot":"$base64","sizeKB":$sizeKB,"format":"jpeg"}"""
+                            callback(true, jsonResult)
+                        } catch (e: Exception) {
+                            MdmLog.e(TAG, "Error procesando screenshot: ${e.message}")
+                            callback(false, """{"error":"${e.message}"}""")
+                        }
                     }
-                    callback(false, """{"error":"$errorMsg","code":$errorCode}""")
+
+                    override fun onFailure(errorCode: Int) {
+                        // Valores literales: ERROR_SCREENSHOT_NO_PERMISSIONS=1,
+                        // ERROR_SCREENSHOT_SECURITY_POLICY=2
+                        val errorMsg =
+                                when (errorCode) {
+                                    1 -> "Sin permisos de screenshot"
+                                    2 -> "Bloqueado por política de seguridad"
+                                    else -> "Error código: $errorCode"
+                                }
+                        callback(false, """{"error":"$errorMsg","code":$errorCode}""")
+                    }
                 }
-            }
         )
     }
 }
