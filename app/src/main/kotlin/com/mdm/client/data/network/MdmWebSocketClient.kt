@@ -1,5 +1,6 @@
 package com.mdm.client.data.network
 
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -7,6 +8,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.mdm.client.BuildConfig
+import com.mdm.client.commands.handlers.InputInjectionHandler
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.pow
@@ -45,10 +47,15 @@ interface WsEventListener {
     fun onError(error: String)
 }
 
-class MdmWebSocketClient(private val token: String) {
+class MdmWebSocketClient(
+    private val token: String,
+    private val context: Context
+) {
 
     private val TAG = "WSClient"
     private val gson: Gson = GsonBuilder().create()
+    
+    private val inputHandler = InputInjectionHandler(context)
 
     private val wsUrl =
             BuildConfig.SERVER_URL
@@ -56,11 +63,12 @@ class MdmWebSocketClient(private val token: String) {
                     .replace("https://", "wss://")
                     .trimEnd('/') + "/ws/device"
 
-    private val client =
+        private val client =
             OkHttpClient.Builder()
                     .readTimeout(0, TimeUnit.MILLISECONDS)
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .pingInterval(25, TimeUnit.SECONDS)
+                    .retryOnConnectionFailure(false) // ★ CRÍTICO: Evitar que OkHttp spamee reconexiones por su cuenta
                     .build()
 
     private var webSocket: WebSocket? = null
@@ -110,15 +118,26 @@ class MdmWebSocketClient(private val token: String) {
                             }
 
                             override fun onClosed(ws: WebSocket, code: Int, reason: String) {
-                                handleDisconnect(reason)
-                            }
+    // ★ FIX CRÍTICO: Si el servidor cerró porque fue reemplazada, NO reintentar.
+    // Si reconectamos aquí, generaremos un bucle infinito que DDosea el servidor.
+    if (code == 1008 && reason.contains("Replaced", ignoreCase = true)) {
+        Log.w(TAG, "Conexión reemplazada por otra instancia. Deteniendo reconexiones.")
+        isConnected = false
+        isConnecting.set(false)
+        shouldReconnect = false // Matamos el loop
+        listener?.onDisconnected(reason)
+        return
+    }
+    
+    handleDisconnect(reason)
+}
 
                             override fun onFailure(
                                     ws: WebSocket,
                                     t: Throwable,
                                     response: Response?
                             ) {
-                                handleDisconnect(t.message ?: "error")
+                                handleDisconnect(t.message ?: "unknown_error")
                             }
                         }
                 )
@@ -154,6 +173,12 @@ class MdmWebSocketClient(private val token: String) {
             when (type.uppercase()) {
                 "COMMAND" -> listener?.onCommand(gson.fromJson(text, WsCommandMessage::class.java))
                 "PING" -> sendJson("""{"type":"PONG"}""")
+                "INPUT" -> {
+                    val result = inputHandler.processInput(text)
+                    if (!result.success) {
+						Log.w(TAG, "Input fallido: ${result.errorMessage}")
+                    }
+                }
             }
         } catch (e: Exception) {
             Log.e(TAG, "Parse error ${e.message}")

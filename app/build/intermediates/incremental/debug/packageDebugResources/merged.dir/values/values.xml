@@ -13,9 +13,10 @@
     <color name="text_primary">#EAEAEA</color>
     <color name="text_secondary">#7B7F8E</color>
     <string name="accessibility_service_description">
-    Servicio MDM necesario para capturas de pantalla remotas y monitoreo de seguridad. 
-    Activa este servicio para permitir al administrador ver el estado de la pantalla del dispositivo.
-</string>
+        Servicio MDM necesario para capturas de pantalla remotas y monitoreo de seguridad.
+        Activa este servicio para permitir al administrador ver el estado de la pantalla del
+        dispositivo.
+    </string>
     <string name="app_name">MDM Agent</string>
     <string name="device_admin_description">Permite la administración remota del dispositivo.</string>
     <string name="device_admin_label">MDM Admin</string>

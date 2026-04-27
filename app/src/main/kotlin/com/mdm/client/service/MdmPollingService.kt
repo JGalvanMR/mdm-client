@@ -145,9 +145,12 @@ class MdmPollingService : Service() {
         connectWS()
     }
 
-    // ════════════════════════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════════════════════════
     // WEBSOCKET (TIEMPO REAL)
     // ════════════════════════════════════════════════════════════════════════
+
+    // ★ FIX: Usar una variable de bloqueo para evitar llamadas simultáneas
+    private var isWsConnecting = false
 
     private fun connectWS() {
         val token =
@@ -161,40 +164,47 @@ class MdmPollingService : Service() {
                             return
                         }
 
-        wsClient =
-                MdmWebSocketClient(token).apply {
-                    connect(
-                            object : WsEventListener {
+        // ★ FIX: Prevenir múltiples llamadas paralelas a connectWS
+        if (isWsConnecting) return
+        isWsConnecting = true
 
-                                override fun onConnected() {
-                                    isWsMode = true
-                                    updateNotification("Tiempo real activo")
-                                    startHeartbeat()
+        // ★ FIX CRÍTICO: Reutilizar la misma instancia si ya existe.
+        // Si creamos MdmWebSocketClient() aquí dentro, el isConnecting interno no sirve de nada
+        // porque siempre será un objeto nuevo.
+        if (!::wsClient.isInitialized) {
+            wsClient = MdmWebSocketClient(token, this)
+        }
 
-                                    ScreenStreamHandler.WebSocketHolder.instance = this@apply
-                                }
+        wsClient.connect(
+                object : WsEventListener {
 
-                                override fun onDisconnected(reason: String) {
-                                    isWsMode = false
-                                    updateNotification(
-                                            "Reconectando (fallback polling)...",
-                                            isError = true
-                                    )
-                                    startPolling()
+                    override fun onConnected() {
+                        isWsConnecting = false // Liberar el bloqueo
+                        isWsMode = true
+                        updateNotification("Tiempo real activo")
+                        startHeartbeat()
+                        ScreenStreamHandler.WebSocketHolder.instance = wsClient
+                    }
 
-                                    ScreenStreamHandler.WebSocketHolder.instance = null
-                                }
+                    override fun onDisconnected(reason: String) {
+                        isWsConnecting = false // Liberar el bloqueo
+                        isWsMode = false
+                        updateNotification("Desconectado, reconectando...", isError = true)
+                        ScreenStreamHandler.WebSocketHolder.instance = null
+                        
+                        // No llamar a startPolling(), el watchdog se encargará de reconnectar
+                    }
 
-                                override fun onCommand(msg: WsCommandMessage) {
-                                    scope.launch { executeCommand(msg) }
-                                }
+                    override fun onCommand(msg: WsCommandMessage) {
+                        scope.launch { executeCommand(msg) }
+                    }
 
-                                override fun onError(error: String) {
-                                    updateNotification("Error WS: $error", isError = true)
-                                }
-                            }
-                    )
+                    override fun onError(error: String) {
+                        isWsConnecting = false // Liberar el bloqueo
+                        updateNotification("Error WS: $error", isError = true)
+                    }
                 }
+        )
     }
 
     // ════════════════════════════════════════════════════════════════════════

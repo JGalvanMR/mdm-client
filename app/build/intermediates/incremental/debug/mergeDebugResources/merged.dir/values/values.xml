@@ -1989,9 +1989,10 @@
     <string name="abc_shareactionprovider_share_with_application">Share with <ns2:g example="Mail" id="application_name">%s</ns2:g></string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="accessibility_service_description">
-    Servicio MDM necesario para capturas de pantalla remotas y monitoreo de seguridad. 
-    Activa este servicio para permitir al administrador ver el estado de la pantalla del dispositivo.
-</string>
+        Servicio MDM necesario para capturas de pantalla remotas y monitoreo de seguridad.
+        Activa este servicio para permitir al administrador ver el estado de la pantalla del
+        dispositivo.
+    </string>
     <string name="androidx_startup" translatable="false">androidx.startup</string>
     <string name="app_name">MDM Agent</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>

@@ -8,7 +8,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <!-- Reemplaza con la IP real de tu PC -->
         <domain includeSubdomains="false">192.168.123.155</domain>
-		<domain includeSubdomains="false">189.206.160.206</domain>
+        <domain includeSubdomains="false">189.206.160.206</domain>
     </domain-config>
 
     <base-config cleartextTrafficPermitted="false">
